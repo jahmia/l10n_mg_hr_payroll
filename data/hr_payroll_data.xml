@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+  <!-- Rules Category -->
+    <record id="RET" model="hr.salary.rule.category">
+      <field name="name">Retenues</field>
+      <field name="code">RET</field>
+      <field name="parent_id" eval="False"/>
+      <field name="note">Colonne Retenue sur la fiche de paie</field>
+    </record>
+
+    <record id="hr_payroll.DED" model="hr.salary.rule.category">
+      <field name="parent_id" ref="RET"/>
+    </record>
+
+    <record id="TJ" model="hr.salary.rule.category">
+      <field name="name">Taux Journalier</field>
+      <field name="code">TJ</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="DAYSIN" model="hr.salary.rule.category">
+      <field name="name">Jours Travaillés</field>
+      <field name="code">DAYSIN</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="ABS" model="hr.salary.rule.category">
+      <field name="name">Absences</field>
+      <field name="code">ABS</field>
+      <field name="parent_id" eval="RET"/>
+      <field name="note">Absences sans motif
+        Absences non officielle</field>
+    </record>
+
+    <record id="SMONTH" model="hr.salary.rule.category">
+      <field name="name">Salaire du mois</field>
+      <field name="code">SMONTH</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="CNG" model="hr.salary.rule.category">
+      <field name="name">Congés Restants</field>
+      <field name="code">CNG</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="PMONTH" model="hr.salary.rule.category">
+      <field name="name">Prestation du mois</field>
+      <field name="code">PMONTH</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="IFT" model="hr.salary.rule.category">
+      <field name="name">Indemnité Transport Fortifiaire</field>
+      <field name="code">IFT</field>
+      <field name="parent_id" ref="hr_payroll.ALW"/>
+    </record>
+
+    <record id="HSE" model="hr.salary.rule.category">
+      <field name="name">Heures Supplémentaires Exceptionnelles</field>
+      <field name="code">HSE</field>
+      <field name="parent_id" ref="hr_payroll.ALW"/>
+    </record>
+
+    <record id="PRIME" model="hr.salary.rule.category">
+      <field name="name">Prime</field>
+      <field name="code">PRIME</field>
+      <field name="parent_id" ref="hr_payroll.ALW"/>
+    </record>
+
+    <record id="WD" model="hr.salary.rule.category">
+      <field name="name">Worked Days</field>
+      <field name="code">WD</field>
+    </record>
+
+    <record id="OSTIE" model="hr.salary.rule.category">
+      <field name="name">Cotisation OSTIE Employeur</field>
+      <field name="code">OSTIE</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="CNAPS" model="hr.salary.rule.category">
+      <field name="name">Cotisation CNaPS Employeur</field>
+      <field name="code">CNAPS</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="IRSA" model="hr.salary.rule.category">
+      <field name="name">Impots sur les Revenus du SAlariés</field>
+      <field name="code">IRSA</field>
+      <field name="parent_id" ref="RET"/>
+    </record>
+
+    <!-- Prestataire -->
+    <record id="IRI" model="hr.salary.rule.category">
+      <field name="name">Impots sur les Revenus Intermittents</field>
+      <field name="code">IRI</field>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="FUNHECE" model="hr.salary.rule.category">
+      <field name="name">Prélevement Funhece</field>
+      <field name="code">FUNHECE</field>
+      <field name="note">Prélevements Funhece mensuels</field>
+    </record>
+
+    <record id="FUNHECE_PSI" model="hr.salary.rule.category">
+      <field name="name">Prélevement PSI</field>
+      <field name="code">FUNHECE_PSI</field>
+      <field name="note">Prélevements Funhece mensuels pour la Protection Sociale Individuelle</field>
+      <field name="parent_id" ref="FUNHECE"/>
+    </record>
+
+    <record id="FUNHECE_PSF" model="hr.salary.rule.category">
+      <field name="name">Prélevement PSF</field>
+      <field name="code">FUNHECE_PSF</field>
+      <field name="note">Prélevements Funhece mensuels pour la Protection Sociale Familiale</field>
+      <field name="parent_id" ref="FUNHECE"/>
+    </record>
+
+    <record id="P_ALW" model="hr.salary.rule.category">
+      <field name="name">Prestataire - Allowance</field>
+      <field name="code">P_ALW</field>
+    </record>
+
+    <record id="P_DED" model="hr.salary.rule.category">
+      <field name="name">Prestataire - Deduction</field>
+      <field name="code">P_DED</field>
+    </record>
+
+    <record id="P_NET" model="hr.salary.rule.category">
+      <field name="name">Prestatire - Net</field>
+      <field name="code">P_NET</field>
+    </record>
+
+    <record id="Bonus" model="hr.salary.rule.category">
+      <field name="name">Bonus</field>
+      <field name="code">BONUS</field>
+      <field name="parent_id" ref="P_ALW"/>
+    </record>
+
+  <!-- Contribution Register -->
+    <record id="hcr_cnaps" model="hr.contribution.register">
+      <field name="name">Organisme de prevoyance (CNaPS)</field>
+      <field name="note">Cotisation de l'Employeur : 13% Salaire Brute
+      Cotisation des travailleurs : 1* Salaire Brute</field>
+    </record>
+
+    <record id="hcr_ostie" model="hr.contribution.register">
+      <field name="name">Organisme de santé (OSTIE)</field>
+      <field name="note">Cotisation de l'Employeur : 5% Salaire Brute
+      Cotisation des travailleurs : 1* Salaire Brute</field>
+    </record>
+
+    <record id="hcr_funhece_psi" model="hr.contribution.register">
+      <field name="name">FUNHECE - PSI</field>
+      <field name="note">Protection Sociale Individuelle</field>
+    </record>
+
+    <record id="hcr_funhece_psf" model="hr.contribution.register">
+      <field name="name">FUNHECE - PSF</field>
+      <field name="note">Protection Sociale Familiale</field>
+    </record>
+
+  <!-- HR SALARY RULES-->
+    <record id="hr_payroll.hr_rule_basic" model="hr.salary.rule">
+      <field name="name">Salaire de base</field>
+      <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <record id="hsr_restant_conge" model="hr.salary.rule">
+      <field name="name">Congés Restants</field>
+      <field name="code">RCNG</field>
+      <field name="sequence" eval="8"/>
+      <field name="category_id" ref="CNG"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = contract.date_end and payslip.date_to >= contract.date_end</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = employee.remaining_leaves</field>
+    </record>
+
+    <record id="hsr_solde_conge" model="hr.salary.rule">
+      <field name="name">Solde Congé</field>
+      <field name="code">SCNG</field>
+      <field name="sequence" eval="9"/>
+      <field name="category_id" ref="hr_payroll.ALW"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = categories.CNG</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.TJ * categories.DAYSIN</field>
+    </record>
+
+    <record id="hr_rule_basic_smonth" model="hr.salary.rule">
+      <field name="name">Salaire du mois</field>
+      <field name="code">S_BASIC</field>
+      <field name="sequence" eval="6"/>
+      <field name="category_id" ref="SMONTH"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.TJ * categories.DAYSIN</field>
+    </record>
+
+    <record id="hr_rule_basic_presta" model="hr.salary.rule">
+      <field name="name">Prestation du mois</field>
+      <field name="code">P_BASIC</field>
+      <field name="sequence" eval="7"/>
+      <field name="category_id" ref="PMONTH"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'prestataire'</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.TJ * categories.DAYSIN</field>
+    </record>
+
+    <record id="hsr_ift" model="hr.salary.rule">
+      <field name="name">Indemnité Transport Fortifiaire</field>
+      <field name="code">IFT</field>
+      <field name="sequence" eval="10"/>
+      <field name="category_id" ref="hr_payroll.ALW"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = contract.ift</field>
+    </record>
+
+    <record id="hsr_hse" model="hr.salary.rule">
+      <field name="name">Heures Supplémentaires Exceptionnelles</field>
+      <field name="code">HSE</field>
+      <field name="sequence" eval="11"/>
+      <field name="category_id" ref="hr_payroll.ALW"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (payslip.h_sup != 0.0 and employee.employee_type == 'cdi')</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = payslip.h_sup</field>
+    </record>
+
+    <record id="hsr_prime" model="hr.salary.rule">
+      <field name="name">Prime</field>
+      <field name="code">PRIME</field>
+      <field name="sequence" eval="12"/>
+      <field name="category_id" ref="hr_payroll.ALW"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (payslip.prime != 0.0 and employee.employee_type == 'cdi')</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = payslip.prime</field>
+    </record>
+
+    <record id="hsr_bonus" model="hr.salary.rule">
+      <field name="name">Bonus</field>
+      <field name="code">BONUS</field>
+      <field name="sequence" eval="13"/>
+      <field name="category_id" ref="P_ALW"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (payslip.bonus != 0.0 and employee.employee_type == 'prestataire')</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = payslip.bonus</field>
+    </record>
+
+    <record id="hsr_dayly_rate" model="hr.salary.rule">
+      <field name="name">Taux Journalier</field>
+      <field name="code">TJ</field>
+      <field name="sequence" eval="3"/>
+      <field name="category_id" ref="TJ"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.BASIC / 30</field>
+    </record>
+
+    <record id="hsr_abs" model="hr.salary.rule">
+      <field name="name">Absences déduites sur salaire</field>
+      <field name="code">ABS</field>
+      <field name="sequence" eval="15"/>
+      <field name="category_id" ref="ABS"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (worked_days.ABS and worked_days.ABS.number_of_days)</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = (categories.TJ * worked_days.ABS.number_of_days)</field>
+    </record>
+
+    <record id="hsr_abs_presta" model="hr.salary.rule">
+      <field name="name">Malus</field>
+      <field name="code">P_ABS</field>
+      <field name="sequence" eval="16"/>
+      <field name="category_id" ref="P_DED"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (worked_days.ABS and worked_days.ABS.number_of_days)</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = (categories.TJ * worked_days.ABS.number_of_days)</field>
+    </record>
+
+    <record id="hsr_wd" model="hr.salary.rule">
+      <field name="name">Worked Days</field>
+      <field name="code">WD</field>
+      <field name="sequence" eval="2"/>
+      <field name="category_id" ref="WD"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = (worked_days.WORK100.number_of_days if worked_days.WORK100 else 0) + (worked_days.CNG.number_of_days if worked_days.CNG else 0) + (worked_days.ABS.number_of_days if worked_days.ABS else 0) + (worked_days.OUT.number_of_days if worked_days.OUT else 0)</field>
+    </record>
+
+    <record id="hsr_days_in" model="hr.salary.rule">
+      <field name="name">Jours Travaillés</field>
+      <field name="code">DAYSIN</field>
+      <field name="sequence" eval="4"/>
+      <field name="category_id" ref="DAYSIN"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = 30 - (worked_days.OUT.number_of_days if worked_days.OUT else 0)</field>
+    </record>
+
+    <record id="hsr_acompte" model="hr.salary.rule">
+      <field name="name">Acompte anticipé</field>
+      <field name="code">ACOMP</field>
+      <field name="sequence" eval="19"/>
+      <field name="category_id" ref="P_DED"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = payslip.acompte</field>
+    </record>
+
+    <record id="hsr_cnaps" model="hr.salary.rule">
+      <field name="name">Cotisation CNaPS</field>
+      <field name="code">CNAPS</field>
+      <field name="sequence" eval="103"/>
+      <field name="category_id" ref="hr_payroll.DED"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'cdi'</field>
+      <field name="amount_select">percentage</field>
+      <field name="amount_percentage_base">categories.GROSS</field>
+      <field name="amount_percentage">1</field>
+      <field name="register_id" ref="hcr_cnaps"/>
+    </record>
+
+    <record id="hsr_cnaps_employer" model="hr.salary.rule">
+      <field name="name">Cotisation CNaPS Employeur</field>
+      <field name="code">CNAPS_E</field>
+      <field name="sequence" eval="104"/>
+      <field name="category_id" ref="CNAPS"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'cdi'</field>
+      <field name="amount_select">percentage</field>
+      <field name="amount_percentage_base">categories.GROSS</field>
+      <field name="amount_percentage">13</field>
+      <field name="register_id" ref="hcr_cnaps"/>
+    </record>
+
+    <record id="hsr_ostie" model="hr.salary.rule">
+      <field name="name">Cotisation OSTIE</field>
+      <field name="code">OSTIE</field>
+      <field name="sequence" eval="105"/>
+      <field name="category_id" ref="hr_payroll.DED"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'cdi'</field>
+      <field name="amount_select">percentage</field>
+      <field name="amount_percentage_base">categories.GROSS</field>
+      <field name="amount_percentage">1</field>
+      <field name="register_id" ref="hcr_ostie"/>
+    </record>
+
+    <record id="hsr_ostie_employer" model="hr.salary.rule">
+      <field name="name">Cotisation OSTIE Employeur</field>
+      <field name="code">OSTIE_E</field>
+      <field name="sequence" eval="106"/>
+      <field name="category_id" ref="OSTIE"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'cdi'</field>
+      <field name="amount_select">percentage</field>
+      <field name="amount_percentage_base">categories.GROSS</field>
+      <field name="amount_percentage">5</field>
+      <field name="register_id" ref="hcr_ostie"/>
+    </record>
+
+    <record id="hsr_irsa" model="hr.salary.rule">
+      <field name="name">IRSA</field>
+      <field name="code">IRSA</field>
+      <field name="sequence" eval="107"/>
+      <field name="category_id" ref="IRSA"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'cdi'</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = ( ((categories.GROSS - categories.DED - 250000) * 0.20 ) - 2000 * employee.children) if (employee.employee_type == 'cdi' and contract.wage > 250000) else 0</field>
+    </record>
+
+    <record id="hsr_iri" model="hr.salary.rule">
+      <field name="name">IRI</field>
+      <field name="code">IRI</field>
+      <field name="sequence" eval="202"/>
+      <field name="category_id" ref="IRI"/>
+      <field name="appears_on_payslip" eval="True"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'prestataire'</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.P_NET * 0.05</field>
+    </record>
+
+    <record id="hsr_funhece_psi" model="hr.salary.rule">
+      <field name="name">PSI</field>
+      <field name="code">PSI</field>
+      <field name="sequence" eval="108"/>
+      <field name="category_id" ref="FUNHECE_PSI"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = employee.employee_type == 'prestataire' and employee.marital == 'single'</field>
+      <field name="amount_select">fix</field>
+      <field name="quantity">1</field>
+      <field name="amount_fix">24000</field>
+      <field name="register_id" ref="hcr_funhece_psi"/>
+    </record>
+
+    <record id="hsr_funhece_psf" model="hr.salary.rule">
+      <field name="name">PSF</field>
+      <field name="code">PSF</field>
+      <field name="sequence" eval="109"/>
+      <field name="category_id" ref="FUNHECE_PSF"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">python</field>
+      <field name="condition_python">result = (employee.employee_type == 'prestataire' and employee.marital == 'married')</field>
+      <field name="amount_select">fix</field>
+      <field name="quantity">1</field>
+      <field name="amount_fix">46000</field>
+      <field name="register_id" ref="hcr_funhece_psf"/>
+    </record>
+
+    <record id="hr_payroll.hr_rule_taxable" model="hr.salary.rule">
+      <field name="name">Salaire Brut</field>
+      <field name="sequence" eval="100"/>
+      <field name="code">GROSS</field>
+      <field name="category_id" ref="hr_payroll.GROSS"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.SMONTH + categories.ALW - categories.ABS</field>
+    </record>
+
+    <record id="hr_payroll.hr_rule_net" model="hr.salary.rule" forcecreate="True">
+      <field name="name">Net</field>
+      <field name="sequence" eval="200"/>
+      <field name="code">NET</field>
+      <field name="category_id" ref="hr_payroll.NET"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.GROSS - categories.DED - categories.IRSA</field>
+    </record>
+
+    <record id="hsr_prestat_rule_net" model="hr.salary.rule" forcecreate="True">
+      <field name="name">Prestataire Net</field>
+      <field name="sequence" eval="201"/>
+      <field name="code">P_NET</field>
+      <field name="category_id" ref="P_NET"/>
+      <field name="appears_on_payslip" eval="False"/>
+      <field name="condition_select">none</field>
+      <field name="amount_select">code</field>
+      <field name="amount_python_compute">result = categories.PMONTH + categories.P_ALW - categories.P_DED</field>
+    </record>
+
+  <!-- Structure Salariale -->
+    <record id="hr_payroll.structure_base" model="hr.payroll.structure" forcecreate="True">
+      <field name="code">BASE</field>
+      <field name="name">Structure Salaire CDI</field>
+      <field name="rule_ids" eval="[(6, 0, [
+        ref('hr_payroll.hr_rule_basic'),
+        ref('hr_rule_basic_smonth'),
+        ref('hsr_dayly_rate'),
+        ref('hsr_days_in'),
+        ref('hsr_solde_conge'),
+        ref('hsr_restant_conge'),
+        ref('hsr_abs'),
+        ref('hr_payroll.hr_rule_taxable'),
+        ref('hr_payroll.hr_rule_net'),
+        ref('hsr_ift'),
+        ref('hsr_hse'),
+        ref('hsr_prime'),
+        ref('hsr_cnaps'),
+        ref('hsr_ostie'),
+        ref('hsr_ostie_employer'),
+        ref('hsr_cnaps_employer'),
+        ref('hsr_irsa')])]"/>
+    </record>
+
+    <record id="hps_structure_prestataire" model="hr.payroll.structure" forcecreate="True">
+      <field name="code">PRESTA</field>
+      <field name="name">Structure Salaire Prestataire</field>
+      <field name="rule_ids" eval="[(6, 0, [
+        ref('hr_payroll.hr_rule_basic'),
+        ref('hr_rule_basic_presta'),
+        ref('hsr_bonus'),
+        ref('hsr_dayly_rate'),
+        ref('hsr_days_in'),
+        ref('hsr_solde_conge'),
+        ref('hsr_restant_conge'),
+        ref('hsr_funhece_psi'),
+        ref('hsr_funhece_psf'),
+        ref('hsr_abs_presta'),
+        ref('hsr_acompte'),
+        ref('hsr_prestat_rule_net'),
+        ref('hsr_iri')])]"/>
+      <field name="parent_id" eval="False"/>
+    </record>
+
+  </data>
+</odoo>

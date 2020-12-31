@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_cnaps_talon">
+	<t t-call="web.html_container">
+		<t t-foreach="docs" t-as="o">
+			<div class="header">
+				<div class="row">
+					<div class="col-xs-5 text-center" style="margin-bottom: 0px;">
+						<strong>
+							<p>Caisse Nationale de Prévoyance Sociale</p>
+							<p>B.P 233 AMPEFILOHA ANTANANARIVO</p>
+							<p><span class="glyphicon glyphicon-earphone"/> 020 22 205 20   <span class="glyphicon glyphicon-phone-alt"/>  020 22 347 22</p>
+							<p><i><span class="glyphicon glyphicon-envelope"/></i> cnaps-dn@cnaps.mg</p>
+							<p><span class="glyphicon glyphicon-cloud"/> http://www.cnaps.mg</p>
+						</strong>
+					</div>
+					<div class="col-xs-2 text-center"/>
+					<div class="col-xs-5 text-center">
+						<strong>
+							<p>TALON DES DECLARATIONS</p>
+							<p>NOMINATIVES DES SALAIRIES</p><br/>
+							<p class="text-left">PÉRIODE: <span t-field="o.trimestre"/> <span t-field="o.year"/></p>
+						</strong>
+					</div>
+				</div>
+			</div>
+			<div class="page">
+				<br/>
+				<br/>
+				<div class="text-center">
+                	<p style="text-transform: uppercase;">
+                		<b>Date impérative de retour et de paiement avant le <span t-field="o.date_limit" t-field-options='{"format": "dd MMMM yyyy"}'/></b>
+                	</p>
+                </div>
+                <br/>
+				<table class="table borderless" style="width: 100%;">
+					<tr>
+						<td><b>EMPLOYEUR :</b></td>
+						<td><b><span t-field="o.company_id.cnaps_matricule"/></b></td>
+						<td colspan="5" class="text-left" style="text-transform: uppercase">
+							<b><span t-field="o.company_id.name"/> <span t-field="o.company_id.partner_id.title"/></b>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Adresse: </b></td>
+						<td colspan="6">
+							<p>
+								<span t-field="o.company_id.street"/>
+								<span t-field="o.company_id.street2"/>
+								<span t-field="o.company_id.city"/>
+								<span t-field="o.company_id.zip"/>
+							</p>
+						</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td><b>Téléphone:</b></td>
+						<td><span t-field="o.company_id.fax"/></td>
+						<!-- <td><b>e-mail: </b><span t-field="o.company_id.email"/></td> -->
+						<td colspan="4" class="text-center"><b>TAUX DE COTISATION</b></td>
+					</tr>
+					<tr>
+						<td><b>Code Activité: </b></td>
+						<td colspan="2"><span t-field="o.company_id.cnaps_activity"/></td>
+						<td><b>Employeur: </b></td>
+						<td>13%</td>
+						<td><b>Travailleur: </b></td>
+						<td>1%</td>
+					</tr>
+					<tr>
+						<td colspan="2"><b>Plafond mensuel:</b></td>
+						<td colspan="5"></td>
+					</tr>
+				</table>
+				<table style="width: 40%; margin-left: 12%">
+					<style type="text/css">
+		                table > tbody > tr > td {
+		                    padding: 5px;
+		                    vertical-align: top;
+		                    border: none;
+		                }
+		            </style>
+		            <t t-set="total_empl" t-value="0"/>
+					<t t-set="total_worker" t-value="0"/>
+					<t t-foreach="o.cnaps_lines" t-as="l">
+						<t t-set="total_empl" t-value="total_empl + l.cnaps_employer"/>
+						<t t-set="total_worker" t-value="total_worker + l.cnaps_worker"/>
+					</t>
+					<tr>
+						<td style="width: 60%;">Salaire non plafonné</td>
+						<td class="text-right"><span t-field="o.total_brute_declared"/></td>
+					</tr>
+					<tr>
+						<td>Salaire plafonné</td>
+						<td class="text-right"><span t-field="o.total_brute_capped"/></td>
+					</tr>
+					<tr>
+						<td>Total cotisation employeur</td>
+						<td class="text-right"><span t-esc="'{0:,.2f}'.format(total_empl).replace(',',' ')"/></td>
+					</tr>
+					<tr>
+						<td>Total cotisation travailleur</td>
+						<td class="text-right"><span t-esc="'{0:,.2f}'.format(total_worker).replace(',',' ')"/></td>
+					</tr>
+					<tr>
+						<td>Majoration de retard</td>
+						<td class="text-right"><span t-field="o.majoration"/></td>
+					</tr>
+					<tr>
+						<td>Solde antérieur</td>
+						<td class="text-right"><span t-field="o.solde_previous"/></td>
+					</tr>
+					<tr>
+						<td><b>Net à payer</b></td>
+						<td class="text-right"><b><span t-field="o.net_total"/></b></td>
+					</tr>
+					<tr>
+						<td>Date de versement</td>
+						<td class="text-right"><span t-field="o.date_payment"/></td>
+					</tr>
+					<tr>
+						<td>Total effectif travailleurs</td>
+						<td class="text-right"><span t-esc="len(o.cnaps_lines)"/></td>
+					</tr>
+					<tr>
+						<td>(Listés dans la DNS)</td>
+					</tr>
+				</table>
+				<br/><br/>
+
+				<div>
+					<p><b><u>Mode de règlement</u></b></p>
+					<p style="margin-left: 7%">
+						<t t-if="o.payment_mode == 1">Trésor/Avis de crédit</t>
+						<t t-if="o.payment_mode == 2">Espèces</t>
+						<t t-if="o.payment_mode == 3">Chèque</t>
+						<t t-if="o.payment_mode == 4">Virement</t>
+						<t t-if="o.payment_mode == 5">Virement Postal</t>
+						<t t-if="o.payment_mode == 6">MVola</t>
+					</p>
+					<p style="margin-left: 7%"><u>Référence/N°: </u><span t-field="o.reference_payment"/></p>
+				</div>
+				<br/><br/>
+
+				<div style="margin-left: 50%">
+					<span>A Antananarivo, le <![CDATA[&nbsp;]]></span><span t-field="o.date_document"/><br/>
+                    <span style="margin-left: 84 px">Certifié, sincère et véritable</span>
+                </div>
+			</div>
+			<div class="footer">
+				<div class="text-center" style="font-size: x-small">
+					<ul class="list-inline">
+						<li t-if="o.company_id.name"><span t-field="o.company_id.name"/> S.A.R.L</li>
+
+						<li t-if="o.company_id.street2"><name /></li>
+
+						<li t-if="o.company_id.city"><span t-field="o.company_id.city"/></li>
+
+						<li t-if="o.company_id.zip"><span t-field="o.company_id.zip"/></li>
+
+						<li t-if="o.company_id.siret">STAT <span t-field="o.company_id.siret"/></li>
+
+						<li t-if="o.company_id.company_registry">NIF <span t-field="o.company_id.company_registry"/></li>
+						<br/>
+						<li t-if="o.company_id.website">Site Web : <span t-field="o.company_id.website"/></li>
+
+						<!-- <li t-if="o.company_id.email">Email : <span t-field="o.company_id.email"/></li> -->
+
+						<li t-if="o.company_id.fax or o.company_id.phone">Tel: </li>
+						<li t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></li>
+						<li t-if="o.company_id.fax and o.company_id.phone">/ <span t-field="o.company_id.fax"/></li>
+					</ul>
+				</div>
+			</div>
+		</t>
+	</t>
+</template>
+</data>
+</odoo>

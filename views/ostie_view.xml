@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_ostie_tree_view" model="ir.ui.view">
+            <field name="name">hr.ostie.tree.view</field>
+            <field name="model">hr.ostie</field>
+            <field name="arch" type="xml">
+                <tree name="OSTIE">
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="date_limit"/>
+                    <field name="state"/>
+                    <field name="net_total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_ostie_form_view" model="ir.ui.view">
+            <field name="name">hr.ostie.form.view</field>
+            <field name="model">hr.ostie</field>
+            <field name="arch" type="xml">
+                <form name="OSTIE">
+                    <header>
+                        <button string="Generate" name="ostie_generate" type="object" states="draft,waiting" class="oe_highlight"/>
+                        <button string="Confirm" name="ostie_confirm" type="object" attrs="{'invisible': [('state','not in',('draft'))]}" class="oe_highlight"/>
+                        <button string="Payed" name="ostie_payed" type="object" attrs="{'invisible': [('state','not in',('waiting'))]}" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="name" class="oe_inline" readonly="1"/>
+                        </h2>
+                        <group col="4">
+                            <field name="year"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="trimestre"/>
+                            <field name="date_document"/>
+                            <field name="ostie_total"/>
+                            <field name="majoration"/>
+                            <field name="solde_previous"/>
+                            <field name="a_deduire"/>
+                            <field name="net_total"/>
+                            <field name="date_limit"/>
+                        </group>
+                        <notebook>
+                            <page string="OSTIE">
+                                <field name="ostie_lines" colspan="4" nolabel="1" readonly="1">
+                                    <tree string="LINES" editable="bottom">
+                                        <field name="ostie_id" invisible="1"/>
+                                        <field name="employee_id"/>
+                                        <field name="month_1"/>
+                                        <field name="month_2"/>
+                                        <field name="month_3"/>
+                                        <field name="brute_total"/>
+                                        <field name="ostie_worker" sum="Total"/>
+                                        <field name="ostie_employer" sum="Total"/>
+                                        <field name="observation"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Méthode de paiement">
+                                <group col="4">
+                                    <field name="payment_mode"/>
+                                    <!-- <newline/> -->
+                                    <field name="cheque_number" attrs="{'invisible': [('payment_mode','!=','cheque')]}"/>
+                                    <field name="bank_transfer" attrs="{'invisible': [('payment_mode','!=','virement')]}"/>
+                                    <field name="bank" attrs="{'invisible': [('payment_mode','not in',['cheque','virement'])]}"/>
+                                    <!-- <newline/> -->
+                                    <field name="voucher_number_1" attrs="{'invisible': [('payment_mode','!=','cheque')]}"/>
+                                    <field name="voucher_number_2" attrs="{'invisible': [('payment_mode','!=','virement')]}"/>
+                                    <field name="voucher_number_date" attrs="{'invisible': [('payment_mode','not in',['cheque','virement'])]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_ostie_form" model="ir.actions.act_window">
+            <field name="name">OSTIE</field>
+            <field name="res_model">hr.ostie</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="hr_ostie_tree_view"/>
+            <field name="limit">12</field>
+        </record>
+
+        <menuitem
+            id="ostie_menu_view"
+            name="OSTIE"
+            action="action_ostie_form"
+            parent="menu_hr_document"
+            groups="hr.group_hr_manager"
+            sequence="5"
+        />
+    </data>
+</odoo>

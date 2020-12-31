@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Employee -->
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@name='personal_information']" position="attributes">
+                        <attribute name="groups">hr.group_hr_manager</attribute>
+                    </xpath>
+
+                    <xpath expr="//page[@name='hr_settings']" position="attributes">
+                        <attribute name="groups">hr.group_hr_manager</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='category_ids']" position="attributes">
+                        <attribute name="options">{'no_create_edit': True}</attribute>
+                        <attribute name="groups">hr.group_hr_manager</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='department_id']" position="before">
+                        <field name="employee_type"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='passport_id']" position="after">
+                        <field name="cin_town" required="1"/>
+                        <field name="cin_delivery" required="1"/>
+                        <field name="indice" attrs="{'invisible': [('employee_type', '!=', 'cdi')]}"/>
+                        <field name="cnaps" attrs="{'required': [('employee_type', '=', 'cdi')], 'invisible': [('employee_type', '!=', 'cdi')]}"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='department_id']" position="attributes">
+                        <attribute name="required">1</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='parent_id']" position="attributes">
+                        <attribute name="domain">[('department_id','=',department_id)]</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='job_id']" position="attributes">
+                        <attribute name="attrs">{'required': [('employee_type','=','prestataire')]}</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='identification_id']" position="attributes">
+                        <attribute name="string">Matricule</attribute>
+                        <attribute name="required">1</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='gender']" position="attributes">
+                        <attribute name="required">1</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='marital']" position="attributes">
+                        <attribute name="required">1</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='birthday']" position="attributes">
+                        <attribute name="required">1</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- hr.leave.type -->
+        <record id="edit_holiday_status_form_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.type.form</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='color_name']" position="after">
+                        <field name="deduced"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

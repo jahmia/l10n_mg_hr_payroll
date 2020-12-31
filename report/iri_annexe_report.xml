@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_annexe_iri">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <div class="text-center">
+                    <strong>ANNEXE A LA DECLARATION DE L'IR INTERMITTENT (art. 01-01-05, 01-01-10, 01-01-14-II 6è alinéa du CGI)</strong>
+                </div>
+            </div>
+            <div class="page">
+                <!-- <style type="text/css">
+                    .table > thead > tr > th,
+                    .table > tbody > tr > th,
+                    .table > tfoot > tr > th,
+                    .table > thead > tr > td,
+                    .table > tbody > tr > td,
+                    .table > tfoot > tr > td {
+                        padding: 8px;
+                        vertical-align: top;
+                    }
+                </style> -->
+                <div class="row">
+                    <div class="col-xs-5"><u>Raison sociale de l'entreprise effectuant la déclaration : </u></div>
+                    <div class="col-xs-7"><strong><span t-field="o.company_id.name"/> SARL</strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-5"><u>Siège social de l'entreprise :</u></div>
+                    <div class="col-xs-7"><strong><span t-field="o.company_id.street2"/></strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-5"><u>NIF : </u></div>
+                    <div class="col-xs-7"><strong><span t-field="o.company_id.company_registry"/></strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-5"><u>Période : </u></div>
+                    <div class="col-xs-7"><strong><span t-field="o.name"/></strong></div>
+                </div>
+                <br/><br/><br/>
+                <table class="table table-bordered">
+                    <!-- <thead>
+                        <tr class="text-center" style="vertical-align: middle">
+                            <td rowspan="3" style="vertical-align: middle">Nom et prénoms du fournisseur</td>
+                            <td rowspan="3" style="vertical-align: middle">N° CIN</td>
+                            <td rowspan="3" style="vertical-align: middle">Adresse</td>
+                            <td colspan="5">Nature des opérations d'achats</td>
+                            <td rowspan="3" style="vertical-align: middle">IR intermittent</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td rowspan="2" style="vertical-align: middle">Date de l'achat</td>
+                            <td rowspan="2" style="vertical-align: middle">Libellé de l'achat</td>
+                            <td colspan="2">Détail</td>
+                            <td rowspan="2">Montant</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>Unité</td>
+                            <td>PU</td>
+                        </tr>
+                    </thead> -->
+                    <tfoot>
+                        <td colspan="7" class="text-right"><strong>TOTALISATIONS</strong></td>
+                        <td class="text-right"><span t-field="o.net_total"/></td>
+                        <td class="text-right"><span t-field="o.iri_total"/></td>
+                    </tfoot>
+                    <tr class="text-center" style="vertical-align: middle">
+                            <td rowspan="3" style="vertical-align: middle; font-weight: bold;">Nom et prénoms du fournisseur</td>
+                            <td rowspan="3" style="vertical-align: middle; font-weight: bold;">N° CIN</td>
+                            <td rowspan="3" style="vertical-align: middle; font-weight: bold;">Adresse</td>
+                            <td colspan="5" style="font-weight: bold;">Nature des opérations d'achats</td>
+                            <td rowspan="3" style="vertical-align: middle; font-weight: bold;">IR Intermittent</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td rowspan="2" style="vertical-align: middle; font-weight: bold;">Date de l'achat</td>
+                            <td rowspan="2" style="vertical-align: middle; font-weight: bold;">Libellé de l'achat</td>
+                            <td colspan="2" style="font-weight: bold;">Détail</td>
+                            <td rowspan="2" style="font-weight: bold;">Montant</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td style="font-weight: bold;">Unité</td>
+                            <td style="font-weight: bold;">PU</td>
+                        </tr>
+                    <tbody t-foreach="o.iri_lines" t-as="line">
+                        <td class="text-left"><span t-field="line.employee_id.name"/></td>
+                        <td class="text-center"><span t-field="line.employee_id.otherid"/></td>
+                        <td class="text-left">
+                            <span t-field="line.employee_id.address_home_id" t-field-options='{"fields": ["address"], "no_marker": true}'/>
+                            <!-- <address t-field="o.employee_id.address_home_id" t-field-options='{"fields": ["address"], "no_marker": true}' /> -->
+                        </td>
+                        <td class="text-center"><span t-field="o.name"/></td>
+                        <td class="text-center">Prestation</td>
+                        <td class="text-center">1</td>
+                        <td class="text-right"><span t-field="line.net"/></td>
+                        <td class="text-right"><span t-field="line.net"/></td>
+                        <td class="text-right"><span t-field="line.iri"/></td>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

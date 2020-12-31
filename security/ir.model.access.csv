@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_funhece,access_hr_funhece,model_hr_funhece,hr.group_hr_manager,1,1,1,1
+access_hr_funhece_line,access_hr_funhece_line,model_hr_funhece_line,hr.group_hr_manager,1,1,1,1
+access_hr_cnaps,access_hr_cnaps,model_hr_cnaps,hr.group_hr_manager,1,1,1,1
+access_hr_cnaps_line,access_hr_cnaps_line,model_hr_cnaps_line,hr.group_hr_manager,1,1,1,1
+access_hr_irsa,access_hr_irsa,model_hr_irsa,hr.group_hr_manager,1,1,1,1
+access_hr_irsa_line,access_hr_irsa_line,model_hr_irsa_line,hr.group_hr_manager,1,1,1,1
+access_hr_ostie,access_hr_ostie,model_hr_ostie,hr.group_hr_manager,1,1,1,1
+access_hr_ostie_line,access_hr_ostie_line,model_hr_ostie_line,hr.group_hr_manager,1,1,1,1
+access_hr_iri,access_hr_iri,model_hr_iri,,1,0,0,0
+access_hr_iri_line,access_hr_iri_line,model_hr_iri_line,,1,0,0,0

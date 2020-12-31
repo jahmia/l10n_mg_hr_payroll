@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="hr_holidays.holiday_status_sl" model="hr.leave.type">
+            <field name="double_validation" eval="True"/>
+        </record>
+
+        <record id="holidays_maternite" model="hr.leave.type">
+            <field name="name">Maternity Leaves</field>
+            <field name="limit" eval="True"/>
+            <field name="color_name">lightpink</field>
+        </record>
+
+        <record id="holidays_paternite" model="hr.leave.type">
+            <field name="name">Paternity leaves</field>
+            <field name="limit" eval="True"/>
+            <field name="color_name">blue</field>
+        </record>
+
+        <record id="holidays_unofficial" model="hr.leave.type">
+            <field name="name">Unofficial</field>
+            <field name="limit" eval="False"/>
+            <field name="deduced" eval="True"/>
+            <field name="color_name">red</field>
+        </record>
+    </data>
+</openerp>

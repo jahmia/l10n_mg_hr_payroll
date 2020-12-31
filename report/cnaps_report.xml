@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_cnaps">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <style type="text/css">
+                    .table > thead > tr > th,
+                    .table > tbody > tr > th,
+                    .table > tfoot > tr > th,
+                    .table > thead > tr > td,
+                    .table > tbody > tr > td,
+                    .table > tfoot > tr > td {
+                        padding: 8px;
+                        vertical-align: top;
+                        border: none;
+                    }
+                </style>
+                <div class="row">
+                    <div class="col-xs-3 text-center" style="margin-top: 7px">
+                        <strong>
+                            <p>Caisse Nationale de Prévoyance Sociale</p><br/>
+                            <p>Tél: 22 205 20 BP: 233</p><br/>
+                            <p>Ampefiloha - Antananarivo (101)</p>
+                        </strong>
+                    </div>
+                    <div class="col-xs-4 text-center" style="margin-top: 7px">
+                        <strong>
+                            <p>DECLARATION NOMINATIVE DES SALAIRES VERSES</p><br/>
+                            <p>AU TITRE DU <span t-field="o.trimestre"/> <span t-field="o.year"/></p><br/>
+                            <p>DATE IMPERATIVE DE RETOUR: <span t-field="o.date_limit"/></p>
+                        </strong>
+                    </div>
+                    <div class="col-xs-5">
+                        <table class="table">
+                            <tr style="font-weight: bold">
+                                <td class="text-left; padding:5px">DESTINATAIRE:</td>
+                                <td class="text-right; padding:5px">FOLIO:</td>
+                                <td class="text-right; padding:5px">01-Janv</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td colspan="3" class="text-left"><span t-field="o.company_id.name"/> SARL</td>
+                            </tr>
+                            <tr t-if="o.company_id.street2 or o.company_id.city" style="font-weight: bold">
+                                <td colspan="3" class="text-left">
+                                    <t t-if="o.company_id.street2">
+                                        <span t-field="o.company_id.street2"/>
+                                    </t>
+                                    <t t-if="o.company_id.city">
+                                        <span t-field="o.company_id.city"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table" style="margin-top: 15px">
+                            <tr style="font-weight: bold">
+                                <td style="text-align: left;">Matricule:</td>
+                                <td style="text-align: left;"><span t-field="o.company_id.cnaps_matricule"/></td>
+                                <td style="text-align: left;">Activité: </td>
+                                <td style="text-align: left;"><span t-field="o.company_id.cnaps_activity"/></td>
+                                <td style="text-align: left;">Régime:</td>
+                                <td style="text-align: left;"><span t-field="o.company_id.cnaps_regime"/></td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td style="text-align: left;">Taux Empl:</td>
+                                <td style="text-align: left;">13%</td>
+                                <td style="text-align: left;">Taux Trav:</td>
+                                <td style="text-align: left;">1%</td>
+                                <td style="text-align: left;">S/P:</td>
+                                <td style="text-align: left;">101</td>
+                            </tr>
+                            <tr style="font-weight: bold">
+                                <td colspan="3" style="text-align: left;">Plafond par travailleur et par mois:</td>
+                                <td colspan="3" style="text-align: right;">Ar. 993 944,00</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">NOM et PRENOMS du Travailleur</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">MATRICULE CNaPS</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">Date</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">1er Mois</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">2ème Mois</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">3ème Mois</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">TOTAUX SALAIRES</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">COTISATIONS</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Embauchage</th>
+                            <th style="text-align: center; vertical-align: middle;">Débauchage</th>
+                            <th style="text-align: center; vertical-align: middle;">Salaire</th>
+                            <th style="text-align: center; vertical-align: middle;">TP</th>
+                            <th style="text-align: center; vertical-align: middle;">Salaire</th>
+                            <th style="text-align: center; vertical-align: middle;">TP</th>
+                            <th style="text-align: center; vertical-align: middle;">Salaire</th>
+                            <th style="text-align: center; vertical-align: middle;">TP</th>
+                            <th style="text-align: center; vertical-align: middle;">Déclarés</th>
+                            <th style="text-align: center; vertical-align: middle;">Plafonnés</th>
+                            <th style="text-align: center; vertical-align: middle;">Trav.</th>
+                            <th style="text-align: center; vertical-align: middle;">Empl.</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <td colspan="8" style="border-bottom: 0px !important; border-left: 0px !important;"></td>
+                        <td colspan="2" style="text-align: center; vertical-align: middle;"><strong>TOTALISATIONS</strong></td>
+                        <td class="text-right"><span t-field="o.total_brute_declared"/></td>
+                        <td class="text-right"><span t-field="o.total_brute_capped"/></td>
+                        <td class="text-center"><span t-field="o.total_cnaps_worker"/></td>
+                        <td class="text-right"><span t-field="o.total_cnaps_empl"/></td>
+                    </tfoot>
+                    <tbody t-foreach="o.cnaps_lines" t-as="line">
+                        <td><span t-field="line.employee_id.name"/></td>
+                        <td><span t-field="line.employee_id.cnaps"/></td>
+                        <td class="text-center"><span t-field="line.slip_id.contract_id.date_start"/></td>
+                        <td class="text-center"><span t-field="line.slip_id.contract_id.date_end"/></td>
+                        <td class="text-right"><t t-if="line.month_1"><span t-field="line.month_1"/></t></td>
+                        <td class="text-center"><t t-if="line.month_1">30J</t></td>
+                        <td class="text-right"><t t-if="line.month_2"><span t-field="line.month_2"/></t></td>
+                        <td class="text-center"><t t-if="line.month_2">30J</t></td>
+                        <td class="text-right"><t t-if="line.month_3"><span t-field="line.month_3"/></t></td>
+                        <td class="text-center"><t t-if="line.month_3">30J</t></td>
+                        <td><span t-field="line.brute_declared"/></td>
+                        <td><span t-field="line.brute_capped"/></td>
+                        <td><span t-field="line.cnaps_worker"/></td>
+                        <td><span t-field="line.cnaps_employer"/></td>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <div class="text-center" style="font-size: x-small">
+                    <ul class="list-inline">
+                        <li t-if="o.company_id.name"><span t-field="o.company_id.name"/> S.A.R.L</li>
+
+                        <li t-if="o.company_id.street2"><span t-field="o.company_id.street2"/></li>
+
+                        <li t-if="o.company_id.city"><span t-field="o.company_id.city"/></li>
+
+                        <li t-if="o.company_id.zip"><span t-field="o.company_id.zip"/></li>
+
+                        <li t-if="o.company_id.siret">| STAT <span t-field="o.company_id.siret"/></li>
+
+                        <li t-if="o.company_id.company_registry">NIF <span t-field="o.company_id.company_registry"/></li>
+                        <br/>
+                        <li t-if="o.company_id.website">Site Web : <span t-field="o.company_id.website"/></li>
+
+                        <!-- <li t-if="o.company_id.email">Email : <span t-field="o.company_id.email"/></li> -->
+
+                        <li t-if="o.company_id.fax or o.company_id.phone">Tel: </li>
+                        <li t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></li>
+                        <li t-if="o.company_id.fax and o.company_id.phone">/ <span t-field="o.company_id.fax"/></li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_hr_document" parent="hr.menu_hr_root" name="Documents Administratifs" sequence="40"/>
+
+        <record id="hr_contract_form_inherit2" model="ir.ui.view">
+            <field name="name">hr.contract.view.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='struct_id']" position="before">
+                    <field name="ift"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='credit_note']" position="after">
+                    <field name="cdi" invisible="True"/>
+                    <field name="h_sup" attrs="{'invisible': [('cdi','=',False)]}"/>
+                    <field name="prime" attrs="{'invisible': [('cdi','=',False)]}"/>
+                    <field name="bonus" attrs="{'invisible': [('cdi','=',True)]}"/>
+                    <field name="acompte" attrs="{'invisible': [('cdi','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_payslip_tree_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_funhece_tree_view" model="ir.ui.view">
+            <field name="name">hr.funhece.tree.view</field>
+            <field name="model">hr.funhece</field>
+            <field name="arch" type="xml">
+                <tree name="Funhece">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="psi_total"/>
+                    <field name="psf_total"/>
+                    <field name="total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_funhece_form_view" model="ir.ui.view">
+            <field name="name">hr.funhece.form.view</field>
+            <field name="model">hr.funhece</field>
+            <field name="arch" type="xml">
+                <form name="Funhece">
+                    <header>
+                        <button string="Generate" name="funhece_generate" type="object" states="draft,waiting" class="oe_highlight"/>
+                        <button string="Confirm" name="funhece_confirm" type="object" attrs="{'invisible': [('state','not in',('draft'))]}" class="oe_highlight"/>
+                        <button string="Payed" name="funhece_payed" type="object" attrs="{'invisible': [('state','not in',('waiting'))]}" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="name" class="oe_inline" readonly="1"/>
+                        </h2>
+                        <group col="4">
+                            <field name="year"/>
+                            <field name="psi_total"/>
+                            <field name="month"/>
+                            <field name="psf_total"/>
+                        </group>
+                        <notebook>
+                            <page string="FUNHECES">
+                                <field name="funheces" colspan="4" nolabel="1" on_change="onchange_funheces(context)" readonly="1">
+                                    <tree string="FUNHECES" editable="bottom">
+                                        <field name="funhece_id" invisible="1"/>
+                                        <field name="register_id"/>
+                                        <field name="slip_id"/>
+                                        <field name="employee_id"/>
+                                        <field name="code"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                    </tree>
+                                    <form string="FUNHECES">
+                                        <group col="4">
+                                            <field name="funhece_id" invisible="1"/>
+                                            <field name="register_id"/>
+                                            <field name="slip_id"/>
+                                            <field name="employee_id"/>
+                                            <field name="code"/>
+                                            <field name="amount"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_funhece_form" model="ir.actions.act_window">
+            <field name="name">FUNHECE</field>
+            <field name="res_model">hr.funhece</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="hr_funhece_tree_view"/>
+            <field name="limit">12</field>
+        </record>
+
+        <menuitem
+            id="funhece_menu_view"
+            name="FUNHECE"
+            action="action_funhece_form"
+            parent="menu_hr_document"
+            groups="hr.group_hr_manager"
+            sequence="1"
+        />
+        <!-- remove -->
+
+        <record id="payroll_hr_employee_view_form_inherit" model="ir.ui.view">
+            <field name="name">payroll.hr.employee.view.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_payroll.payroll_hr_employee_view_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//button[@name='%(hr_payroll.act_hr_employee_payslip_list)d']" position="replace">
+                        <button name="%(hr_payroll.act_hr_employee_payslip_list)d"
+                            class="oe_stat_button"
+                            icon="fa-money"
+                            type="action"
+                            groups="hr.group_hr_manager">
+                            <field name="payslip_count" widget="statinfo" string="Payslips"/>
+                        </button>
+                    </xpath>
+            </field>
+        </record>
+
+        <record id="hr_payroll.menu_department_tree" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3,ref('hr.group_hr_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

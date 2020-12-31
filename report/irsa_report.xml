@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_irsa">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <div class="text-center">
+                    <strong>
+                        <p>REPOBLIKAN'I MADAGASIKARA</p>
+                        <p>SERVICE DES CONTRIBUTIONS DIRECTES</p>
+                        <p>ANNEE <span t-field="o.year"/></p>
+                        <p>AU TITRE DU MOIS <span class="text-uppercase" t-esc="get_month(o.month)"/></p>
+                        <p>SEMESTRE <span class="text-uppercase" t-esc="o.semestre"/></p>
+                    </strong>
+                </div>
+            </div>
+            <div class="page">
+                <style type="text/css">
+                .table-condensed > thead > tr > th {
+                    border-bottom: none !important;
+                }
+                </style>
+
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">NOM ET PRENOM DU TRAVAILLEUR</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">PROFESSION</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">ADRESSE</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">N° Travailleur</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">TT</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">SALAIRE BASE</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">SALAIRE BRUTE</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">NE</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">CNaPS</th>
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">OSTIE</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">SALAIRE NET</th>
+                            <th rowspan="2" style="text-align: center; vertical-align: middle;">IRSA</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Entreprise</th>
+                            <th style="text-align: center; vertical-align: middle;">CNaPS</th>
+                            <th style="text-align: center; vertical-align: middle;">CNaPS Empl</th>
+                            <th style="text-align: center; vertical-align: middle;">CNaPS Trav</th>
+                            <th style="text-align: center; vertical-align: middle;">OSTIE Empl</th>
+                            <th style="text-align: center; vertical-align: middle;">OSTIE Trav</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <td colspan="3" style="border-bottom: 0px !important; border-left: 0px !important;"></td><strong>
+                        <td colspan="3" style="text-align: center; vertical-align: middle;"><strong>TOTAL GENERAL</strong></td>
+                        <td class="text-right"><span t-field="o.base_total"/></td>
+                        <td class="text-right"><span t-field="o.brute_total"/></td>
+                        <td class="text-center"><span t-field="o.child_number_total"/></td>
+                        <td class="text-right"><span t-field="o.cnaps_total_employer"/></td>
+                        <td class="text-right"><span t-field="o.cnaps_total_worker"/></td>
+                        <td class="text-right"><span t-field="o.ostie_total_employer"/></td>
+                        <td class="text-right"><span t-field="o.ostie_total_worker"/></td>
+                        <td class="text-right"><span t-field="o.net_total"/></td>
+                        <td class="text-right"><span t-field="o.irsa_total"/></td></strong>
+                    </tfoot>
+                    <tbody>
+                        <tr t-foreach="o.irsa_lines" t-as="i">
+                            <td><span t-field="i.employee_id.name"/></td>
+                            <td><span t-field="i.employee_id.job_id.name"/></td>
+                            <td><span t-esc="(i.employee_id.address_home_id.name or '')"/></td>
+                            <td class="text-center"><span t-field="i.employee_id.identification_id"/></td>
+                            <td class="text-center"><span t-field="i.employee_id.cnaps"/></td>
+                            <td class="text-center">30J</td>
+                            <td class="text-right"><span t-field="i.base"/></td>
+                            <td class="text-right"><span t-field="i.brute"/></td>
+                            <td class="text-center"><span t-field="i.child_number"/></td>
+                            <td class="text-right"><span t-field="i.cnaps_employer"/></td>
+                            <td class="text-right"><span t-field="i.cnaps_worker"/></td>
+                            <td class="text-right"><span t-field="i.ostie_employer"/></td>
+                            <td class="text-right"><span t-field="i.ostie_worker"/></td>
+                            <td class="text-right"><span t-field="i.net"/></td>
+                            <td class="text-right"><span t-field="i.irsa"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+
+                <div style="margin-left: 18%">
+                    <span>A Antananarivo, le <![CDATA[&nbsp;]]></span><span t-field="o.date_document"/><br/>
+                    <span style="margin-left: 40 px">Signature</span>
+                </div>
+                <br/><br/>
+
+                <div class="row" style="font-size: small">
+                    <div class="col-xs-6">
+                        <table class="table table-condensed table-bordered">
+                            <tr>
+                                <td><b>Nom et prénoms ou raison sociale de l'employeur ou de l'organisme payeur</b></td>
+                                <td class="text-center"><b>Profession</b></td>
+                            </tr>
+                            <tr>
+                                <td style="min-height 15px"><span t-field="company.irsa_payer"/></td>
+                                <td class="text-center"><span t-field="company.irsa_job"/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Adresse précise: </b>
+                                    <span t-field="company.street2"/>
+                                    <span t-field="company.city"/>
+                                    <span t-field="company.zip"/>
+                                </td>
+                                <td>
+                                    <b>Numéro d'identification<br/>statistique:</b>
+                                    <span t-field="company.company_registry"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-5">
+                        <table class="table table-condensed table-bordered">
+                            <tr><td class="text-center"><b>Etat à renvoyer à l'adresse suivante</b></td></tr>
+                            <tr><td class="text-center">
+                                    <span t-field="company.street2"/>
+                                    <span t-field="company.city"/>
+                                    <span t-field="company.zip"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <table class="table table-condensed table-bordered" >
+                            <tr>
+                                <td><i>Montant des traitements, salaires et assimilés au cours des périodes antérieures depuis le début de l'année:</i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><i>Montant des traitements, salaires et assimilés payés au titre de la période considérée</i></td>
+                                <td class="text-center"><b><span t-field="o.irsa_total"/></b></td>
+                            </tr>
+                            <tr>
+                                <td><i>Situation cumulée:</i></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-5">
+                        <table class="table table-condensed table-bordered">
+                            <tr><td class="text-center"><b>Cadre réservé au Service des Contributions directes</b></td></tr>
+                            <tr><td>N° de l'ordre</td></tr>
+                            <tr><td>Etat reçu le</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="text-center" style="font-size: x-small">
+                    <ul class="list-inline">
+                        <li t-if="company.name"><span t-field="company.name"/> S.A.R.L</li>
+
+                        <li t-if="company.street2"><span t-field="company.street2"/></li>
+
+                        <li t-if="company.city"><span t-field="company.city"/></li>
+
+                        <li t-if="company.zip"><span t-field="company.zip"/></li>
+
+                        <li t-if="company.siret">| STAT <span t-field="company.siret"/></li>
+
+                        <li t-if="company.company_registry">NIF <span t-field="company.company_registry"/></li>
+                        <br/>
+                        <li t-if="company.website">Site Web : <span t-field="company.website"/></li>
+
+                        <li t-if="company.email">Email : <span t-field="company.email"/></li>
+
+                        <li t-if="company.fax or company.phone">Tel: </li>
+                        <li t-if="company.phone"><span t-field="company.phone"/></li>
+                        <li t-if="company.fax and company.phone">/ <span t-field="company.fax"/></li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

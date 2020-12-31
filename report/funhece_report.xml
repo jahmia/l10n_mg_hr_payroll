@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_funhece">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 115px;"/>
+                    </div>
+                    <div class="col-xs-6 text-center" style="margin-top:5px;">
+                        <span><h3><span t-field="company.name"/></h3></span>
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <span><h4>FUNHECE</h4></span>
+                    </div>
+                </div>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <h1>
+                    PRELEVEMENT FUNHECE MOIS <span class="text-uppercase" t-esc="get_month(o.month)"/><![CDATA[&nbsp;]]><t t-esc="o.year"/>
+                </h1>
+                <h3>
+                    <strong style="text-align: center; color: rgb(200,35,105)">PROTECTION SOCIALE INDIVIDUELLE (PSI)</strong>
+                </h3>
+
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th>N°</th>
+                            <th>Nom et Prénoms</th>
+                            <th>Montant du prélevement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="get_all_psi(o.funheces)" t-as="f">
+                            <td style="text-align: center"><span t-esc="f['num']"/></td>
+                            <td style="text-align: center"><span t-esc="f['n_p']"/></td>
+                            <td style="text-align: right"><span t-esc="formatLang(f['amount'])"/></td>
+                        </tr>
+                        <tr style="text-align: right; font-weight:bold; background-color: rgb(200,200,200)">
+                            <td colspan="2" style="text-align: right">TOTAL</td>
+                            <td><span t-field="o.psi_total"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    <strong style="text-align: center; color: rgb(200,35,105)">PROTECTION SOCIALE FAMILIALE (PSF)</strong>
+                </h3>
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th>N°</th>
+                            <th>Nom et Prénoms</th>
+                            <th>Montant du prélevement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="get_all_psf(o.funheces)" t-as="f">
+                            <td style="text-align: center"><span t-esc="f['num']"/></td>
+                            <td style="text-align: center"><span t-esc="f['n_p']"/></td>
+                            <td style="text-align: right"><span t-esc="formatLang(f['amount'])"/></td>
+                        </tr>
+                        <tr style="text-align: right; font-weight:bold; background-color: rgb(200,200,200)">
+                            <td colspan="2">TOTAL</td>
+                            <td><span t-field="o.psf_total"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th style="text-align: center; vertical-align: middle; width: 50%">PROTECTION SOCIALE</th>
+                            <th style="text-align: center; vertical-align: middle; width: 20%">NOMBRE DE PRELEVEMENT</th>
+                            <th style="text-align: center; vertical-align: middle">MONTANTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:center">
+                            <td>PSI</td>
+                            <td><span t-field="o.nb_psi"/></td>
+                            <td><span t-field="o.psi_total"/></td>
+                        </tr>
+                        <tr style="text-align:center">
+                            <td>PSF</td>
+                            <td><span t-field="o.nb_psf"/></td>
+                            <td><span t-field="o.psf_total"/></td>
+                        </tr>
+                        <tr style="font-weight:bold; text-align:center; background-color: orange">
+                            <td>TOTAL à PAYER</td>
+                            <td><t t-esc="(o.nb_psi + o.nb_psf)"/></td>
+                            <td><span t-field="o.total"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <div class="text-center" style="font-size: x-small">
+                    <ul t-if="not company.custom_footer" class="list-inline">
+                        <li t-if="company.name"><span t-field="company.name"/> S.A.R.L</li>
+
+                        <li t-if="company.street2"><span t-field="company.street2"/></li>
+
+                        <li t-if="company.city"><span t-field="company.city"/></li>
+
+                        <li t-if="company.zip"><span t-field="company.zip"/></li>
+
+                        <li t-if="company.siret">| STAT <span t-field="company.siret"/></li>
+
+                        <li t-if="company.company_registry">NIF <span t-field="company.company_registry"/></li>
+                        <br/>
+                        <li t-if="company.website">Site Web : <span t-field="company.website"/></li>
+
+                        <li t-if="company.email">Email : <span t-field="company.email"/></li>
+
+                        <li t-if="company.fax or company.phone">Tel: </li>
+                        <li t-if="company.phone"><span t-field="company.phone"/></li>
+                        <li t-if="company.fax and company.phone">/ <span t-field="company.fax"/></li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

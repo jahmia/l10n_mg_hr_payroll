@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_facture_presta">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-if="o.employee_id.employee_type == 'prestataire'">
+                <t t-call="l10n_mg_hr_payroll.db_layout_presta">
+                <div class="page">
+                    <br/><br/><br/>
+                    <h3><strong>Numéro Facture : </strong><span t-field="o.number"/></h3>
+                    <h4><strong>Date : </strong><span class="text-capitalize" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/></h4>
+                    <h4><strong>Service : </strong><t t-esc="o.employee_id.department_id.name"/></h4>
+
+                    <table style="border-collapse: collapse; width:100%; display:inline-table; margin-top: -10px">
+                        <tr>
+                                <td><h4><strong>Client :</strong></h4></td>
+                                <td style="color: rgb(0, 103, 166); text-align: right">
+                                    <h3><strong>
+                                        <t t-if="company.name"><t t-esc="company.name"/> SARL</t>
+                                    </strong></h3>
+                                </td>
+                        </tr>
+                    </table>
+
+
+                    <address style="text-align: right">
+                        <t t-if="company.street2"><span t-field="company.street2"/></t>
+                        <t t-if="company.zip"><span t-field="company.zip"/></t>
+                        <t t-if="company.city"><span t-field="company.city"/></t><br/>
+                        <t t-if="company.siret">STAT <span t-field="company.siret"/></t><br/>
+                        <t t-if="company.company_registry">NIF <span t-field="company.company_registry"/></t><br/>
+                        <t t-if="company.website">Site Web : <span t-field="company.website"/></t><br/>
+                        <!-- <t t-if="company.email">Email : <span t-field="company.email"/></t><br/> -->
+                        <t t-if="company.fax or company.phone">Tel:
+                            <t t-if="company.phone"><span t-field="company.phone"/></t>
+                            <t t-if="company.fax and company.phone">/ <span t-field="company.fax"/></t>
+                        </t>
+                    </address>
+                    <br/><br/><br/><br/><br/><br/><br/>
+
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="background-color: rgb(200,200,200)">Désignation</th>
+                                <th style="background-color: rgb(224,224,224); text-align: center">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="get_payslip_lines(o.line_ids)" t-as="p">
+                                <td style="background-color: rgb(200,200,200)">
+                                    <t t-if="p.code == 'P_BASIC'">
+                                        Prestation de <span t-field="p.employee_id.department_id.name"/>
+                                    </t>
+                                    <t t-if="p.code != 'P_BASIC'">
+                                        <span t-field="p.name"/>
+                                    </t>
+                                </td>
+                                <td style="background-color: rgb(224,224,224); text-align: right"><span t-field="p.total"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+
+                    <table class="table table-bordered" style="vertical-align: middle; background-color: #f5f5f5; color: #080808">
+                        <tr t-foreach="get_net(o)" t-as="p">
+                            <td>Net à payer</td>
+                            <td class="text-right" style="font-size: large"><span t-field="p.total"/> Ar</td>
+                        </tr>
+                        <tr>
+                            <td>Soit en lettres</td>
+                            <td class="text-right"><t t-esc="get_net_letters(o)"/> ARIARY</td>
+                        </tr>
+                    </table>
+
+                    <table class="table borderless" style="border: 1px">
+                        <tr>
+                            <td>
+                                <strong>Le prestataire</strong>
+                            </td>
+                            <td class="text-right">
+                                <strong t-field="o.company_id.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </t>
+            </t>
+            <t t-if="o.employee_id.employee_type == 'cdi'">
+                <div class="page">
+                    <h1 class="text-center"><i>Les factures sont uniquement pour les prestataires</i></h1>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

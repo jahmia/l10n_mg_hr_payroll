@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_contract">
+    <t t-call="web.html_container">
+        <style type="text/css">
+            @font-face {
+                font-family: 'fontawesome';
+                font-weight: 1000;
+                font-style: normal;
+            }
+        </style>
+        <!-- @font-face {
+            font-family: 'fontawesome';
+            src: url("fonts/fontawesome-webfont.eot");
+            font-weight: 1000;
+            font-style: normal;
+        } -->
+        <t t-foreach="docs" t-as="o">
+            <t t-if="o.employee_id.employee_type == 'prestataire'">
+            <t t-if="o and o.employee_id">
+                <t t-set="company" t-value="o.employee_id.company_id"></t>
+                <t t-set="e" t-value="o.employee_id"></t>
+            </t>
+            <div class="page">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div><strong><span t-field="company.name" class="text-uppercase"/> SARL</strong></div>
+                        <div><span t-field="company.street2"/></div>
+                        <div><span t-field="company.city"/> - <span t-field="company.zip"/></div><br/><br/>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <img src="/l10n_mg_hr_payroll/static/description/icon.png" style="max-height: 78;" alt="logo"/>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <tr style="text-align: center">
+                        <td><strong>CONTRAT DE PRESTATION</strong></td>
+                    </tr>
+                </table>
+                <br/>
+                Ce contrat est conclu au jour de <em><span t-field="o.date_start"/></em>, entre DIGITAL SUPPLYER au capital de 2.000.000 Ariary, dont le siège social est situé
+                <t t-if="company.street2"><span t-field="company.street2"/></t>
+                <t t-if="company.city">, <span t-field="company.city"/></t>
+                <t t-if="company.zip"> <span t-field="company.zip"/></t><br/>
+                Représentée par Mr <em><span t-field="company.irsa_payer"/></em> agissant en qualité de Gérant<br/>
+                Ci-après désignée « La Société »<br/>
+                D’une part,<br/><br/>
+                <strong>Et</strong><br/><br/>
+                <t t-if="e.gender == 'male'">Mr</t>
+                <t t-if="e.gender == 'female' and e.marital == 'single'">Mlle</t>
+                <t t-if="e.gender == 'female' and e.marital != 'single'">Mme</t>
+                <em><span t-field="e.name"/></em> né
+                <t t-if="e.gender == 'female'">e</t> le
+                <em><span t-field="e.birthday"/></em> à <em><span t-field="e.place_of_birth"/> </em>, démeurant au
+                <em><t t-if="e.address_home_id.street2">
+                    <span t-field="e.address_home_id.street2"/>
+                </t>
+                <t t-if="e.address_home_id.city">
+                    <span t-field="e.address_home_id.city"/>
+                </t>
+                <t t-if="e.address_home_id.state_id.name">
+                    <span t-field="e.address_home_id.state_id.name"/>
+                </t>
+                <t t-if="e.address_home_id.zip">
+                    <span t-field="e.address_home_id.zip"/>
+                </t>
+                <t t-if="e.address_home_id.country_id.name">
+                    <span t-field="e.address_home_id.country_id.name"/>
+                </t></em>, de nationalité
+                <t t-if="e.country_id.code == 'MG'"><em> Malgache, </em></t>
+                <t t-if="e.country_id.code != 'MG'"><em> .................., </em></t> et titulaire de la carte d'identité nationale n° <em><span t-field="e.otherid"/></em>, à <em> <span t-field="e.cin_town"/></em>.<br/>
+                Ci-après désigné « Prestataire » D’autre part<br/><br/>
+                <div style="text-align: center">IL A ETE CONVENU CE QUI SUIT</div><br/><br/>
+                <strong>Article 01 : OBJET DU CONTRAT</strong><br/>
+
+                Le « Prestataire » s’engage à fournir à DIGITAL SUPPLYER en tant que Prestataire indépendant en informatique et web les prestations de services qui suivent et en adéquation avec son profil :<br/>
+                <ul style="margin-left: 35px;">
+                    <!-- Rédaction -->
+                        <t t-if="e.department_id.code == 'RW'">
+                            <u><li>Rédaction et diffusion de contenu web.</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'RW'">
+                            <li>Rédaction et diffusion de contenu web.</li>
+                        </t>
+                    <!-- SEO -->
+                        <t t-if="e.department_id.code == 'SE'">
+                            <u><li>Prestations de référencement (annuaire, blog, communiqués de presse, social) et webmarketing en général.</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'SE'">
+                            <li>Prestations de référencement (annuaire, blog, communiqués de presse, social) et webmarketing en général.</li>
+                        </t>
+                    <!-- Saisie de Données -->
+                        <t t-if="e.department_id.code == 'SD'">
+                            <u><li>Saisie et traitement de données, saisie en ligne.</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'SD'">
+                            <li>Saisie et traitement de données, saisie en ligne.</li>
+                        </t>
+                    <!-- Modération Web -->
+                        <t t-if="e.department_id.code == 'MW'">
+                            <u><li>Modération et gestion de contenu.</li></u>
+                            <u><li>Animation réseaux (plateforme tchat, sms, etc.).</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'MW'">
+                            <li>Modération et gestion de contenu.</li>
+                            <li>Animation réseaux (plateforme tchat, sms, etc.).</li>
+                        </t>
+                    <!-- Création Site Web -->
+                        <t t-if="e.department_id.code == 'CW'">
+                            <u><li>Création, développement site web, Intégration html.</li></u>
+                            <u><li>Graphique, design.</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'CW'">
+                           <li>Création, développement site web, Intégration html.</li>
+                           <li>Graphique, design.</li>
+                        </t>
+                    <!-- Assistance Virtuelle -->
+                        <t t-if="e.department_id.code == 'AV'">
+                            <u><li>Secrétariat virtuel (assistance téléphonique, télé-enquêteur, télé-opération, etc.).</li></u>
+                        </t>
+                        <t t-if="e.department_id.code != 'AV'">
+                            <li>Secrétariat virtuel (assistance téléphonique, télé-enquêteur, télé-opération, etc.).</li>
+                        </t>
+                    <li>Autres prestations correspondant au profil du prestataire et que ce dernier accepte de réaliser:</li>
+                </ul>
+                    ................................................................................................................................................................................................................................<br/>
+                    ................................................................................................................................................................................................................................<br/>
+                    ................................................................................................................................................................................................................................<br/>
+                    ................................................................................................................................................................................................................................<br/>
+                    ................................................................................................................................................................................................................................<br/>
+                    <br/><br/>
+                <strong>Article 02 : LIEU D'EXECUTION DE LA PRESTATION</strong><br/>
+                Le « Prestataire » exerce sa prestation dans les locaux de la société <span t-field="company.name" class="text-uppercase"/>. Sa présence dans ces locaux pendant la réalisation de ses tâches ainsi que la livraison qu'il effectue selon l'objectif qui lui a été assigné justifieront le paiement de ses honoraires par la Société.<br/><br/><br/>
+
+                <strong>Article 03: HORAIRES</strong><br/>
+                Le « Prestataire » réalisera sa prestation pendant les jours et les heures d'ouverture de DIGITAL SUPPLYER.   Toutefois, des changements ultérieurs d'horaire   sont à prévoir en fonction des besoins de l’organisation interne de DIGITAL SUPPLYER et des besoins de ses clients à l’étranger. Le « Prestataire » s’engage ainsi à accepter et à respecter les changements d’horaires induits par ces facteurs.<br/><br/><br/>
+
+                <strong>Article 04 : CONFIDENTIALITE ET EXCLUSIVITE</strong><br/>
+                Le Prestataire considèrera comme strictement confidentiels et stratégiques, et s’interdit de divulguer tout information, document, données, concept ou méthode, dont il pourra avoir connaissance à l’occasion du présent contrat. Il admet que ces éléments sont et resteront propriété exclusive de la société DIGITAL SUPPLYER.<br/><br/><br/>
+
+                <strong>Article 05: DUREE DU CONTRAT</strong><br/>
+                Le présent contrat prend effet à la date de sa signature par les deux parties. La fin d'un "projet client" sur lequel a exercé le prestataire constitue une fin naturelle du présent contrat. Outre, les deux (2) parties sont libres, sans avoir l’obligation de donner les motifs, de mettre fin au présent contrat après avoir notifié l’autre partie de sa volonté de rompre le contrat en l'ayant averti une semaine avant la rupture, avec toutes les astreintes que cela invoquent :<br/><br/><br/>
+
+                Si l’initiative de rupture est à l'initiative du prestataire : passation au responsable, remise des travaux faits jusqu’à la date de rupture à la société.<br/><br/>
+
+                Si l’initiative de la rupture est du fait de la Société : règlement de la totalité des sommes dues au Prestataire après que celui-ci lui présente sa facture ou sa note de débit, conformément au montant à payer selon le <em>prorata temporis ou ad valorem</em> convenu.<br/><br/>
+
+                Toutefois en cas d'observation et constatation des fautes citées ci-après par la société : (non-respect de l’article 02, détérioration des matériels de la Société avec volonté de nuire, concurrence déloyale par exploitation d’informations confidentielles et/ou stratégiques appartenant à la Société, exécution d’un travail d’autrui au sein de la Société, refus de suivre les consignes techniques, méthodes et instructions de la Société, insuffisance professionnelle ou non atteinte récurrente ou répétitive de résultat qualitatif et/ou quantitatif), la Société peut rompre le Contrat sans obligation d'observer le délai d'avertir de "une semaine" le prestataire. La liste n'est pas exhaustive, il est laissé à la Société seule le jugement de la gravité de la faute.<br/><br/><br/>
+
+                <strong>Article 06 : LE DROIT A L’INJONCTION</strong><br/>
+                Les parties reconnaissent par la présente que les services fournis par le Prestataire en vertu du présent Contrat et les droits et privilèges offerts à la Société en vertu du Contrat sont de natures extraordinaires, inhabituelles, uniques et spéciales et dont la perte ne pourrait être raisonnablement ou suffisamment compensée par des dommages de toute action en justice. La violation par le Prestataire de l’une des dispositions quelconques du présent Contrat attribuera donc à la Société le droit à une mise en demeure.<br/><br/><br/>
+
+                <strong>Article 07 : PRESTATAIRE DE SERVICE</strong><br/>
+                Le présent Contrat ne fera pas du Prestataire un employé, associé, agent, ou co-prestataire de la Société dans sa relation avec celle-ci.<br/><br/><br/>
+
+                <strong>Article 08 : MODIFICATION OU AMENDEMENT</strong><br/>
+                Aucun amendement, changement ou modification du présent Contrat ne sera valide à moins d’être écrit
+                et signé par les parties de la présente, étant un contrat synallagmatique.<br/><br/><br/>
+
+                <strong>Article 09: ARRANGEMENT INTEGRAL</strong><br/>
+                Le présent contrat annule et remplace tous les contrats, ententes, arrangements et représentations antérieurs, liant le prestataire et la société DIGITAL SUPPLYER, dans leur intégralité et que ces derniers n’ont plus aucune force exécutoire.<br/><br/><br/>
+
+                <strong>Article 10 : DISPOSITIONS INELUCTABLES</strong><br/>
+                Si une (ou quelques parties) du présent contrat est considérée comme nulle et inexécutable, ce qui subsiste du présent Contrat conservera, cependant, son entière force exécutoire.<br/><br/><br/>
+
+                <strong>Article 11 : HONORAIRES DU PRESTATAIRE</strong><br/>
+                En contrepartie de ses prestations, la société DIGITAL SUPPLYER versera au « Prestataire » :<br/><br/><br/>
+
+                <ul style="margin-left: 35px;">
+                    <li>Les honoraires de <em><span t-esc="'%.0f'%o.wage"/> Ariary</em>, sous réserve du respect des dispositions du présent contrat de prestation : respect du temps de réalisation, atteinte des objectifs qualitatif et quantitatif.</li>
+                    <li>Suivant l'atteinte des objectifs (qualitatifs et quantitatifs) par le prestataire, la durée de vie du projet soumis au prestataire, DIGITAL SUPPLYER pourrait intégrer d’autres éléments de bonus et avantages dans les honoraires du prestataire.</li>
+                </ul><br/><br/><br/>
+
+                <strong>Article 12 : IMPOT SUR LES REVENUS INTERMITTENTS (Art. 01.01.14-II)</strong><br/>
+
+                Sous réserve de l’application de l’article 01.01.14 – II du Code général impôts, sont concernées par l’IRI ou Impôt sur les Revenus Intermittents: « ……… les ventes de biens et /ou de services effectuées par des personnes non immatriculées à des personnes immatriculées. »<br/><br/>
+                Aussi, Il sera retenu 5% d’IRI sur les honoraires du prestataire le cas échéant. A noter que ses Impôts seront reversés à l’Etat conformément à ce même article.<br/><br/><br/>
+
+
+                <strong>Article 13 : TRIBUNAL COMPETENT</strong><br/>
+                Les parties conviennent expressément que tout litige né de l’interprétation, de l’application, de l’exécution ou de l’inexécution du présent contrat relève exclusivement de la compétence du Tribunal Civil d’Antananarivo.<br/><br/><br/>
+                EN FOI DE QUOI les soussignés ont élaboré le présent Contrat au jour et à l’année mentionnés ci-dessus.
+                <br/><br/><br/><br/><br/><br/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Pour <span t-field="company.name" class="text-uppercase"/>,</strong>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong>Le Prestataire,</strong>
+                        </div>
+                    </div><br/><br/><br/><br/><br/><br/>
+                    <div class="row">
+                        <div class="col-xs-6">Par <br/>Fonction: Gérant</div>
+                        <div class="col-xs-6">(Signature + la mention lu et approuvé)</div>
+                    </div>
+                </div>
+            </div>
+            </t>
+            <t t-if="o.employee_id.employee_type != 'prestataire'">
+                <div class="page">
+                    <h2>Uniquement pour les prestataires</h2>
+                    <div>Nom: <span t-field="o.employee_id.name"/></div><br/>
+                    <div>Poste: <span t-field="o.job_id.name"/></div><br/>
+                    <div>Type de contrat: <span t-field="o.type_id.name"/></div>
+                </div>
+            </t>
+            <div class="footer text-right">
+                <span>Page </span><span class="page"/> sur <span class="topage"/>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

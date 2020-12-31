@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="l10n_mg_hr_payroll.report_employee">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-set="e" t-value="o.employee_id"/>
+            <div class="header">
+            </div>
+            <div class="page">
+                <table class="table table-bordered">
+                    <tr>
+                        <td colspan="4">
+                            <div class="row">
+                                <div class="col-xs-1"><strong>Société :</strong></div>
+                                <div class="col-xs-2"><strong><span t-field="e.user_id.company_id.name"/></strong></div>
+                                <div class="col-xs-6 text-center"><strong>INFOS GENERALES de l' EMPLOYE (Strictement confidentielles)</strong></div>
+                                <div class="col-xs-2 text-right"><strong>Matricule n° :</strong></div>
+                                <div class="col-xs-1"><strong><span t-field="e.identification_id"/></strong></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%;">NOM et PRENOMS</td>
+                        <td colspan="2"><span t-field="e.name"/></td>
+                        <td>Sexe : <span t-field="e.gender"/></td>
+                    </tr>
+                    <tr>
+                        <td>PROFESSION</td>
+                        <td colspan="2"><span t-field="e.job_id.name"/></td>
+                        <td>Date de début : <span t-field="o.date_start"/></td>
+                    </tr>
+                    <tr>
+                        <td>N° AFFILIATION ORGAN. SOCIAUX</td>
+                        <td>CNaPS : </td>
+                        <td>OSTIE : </td>
+                        <td>ASSURANCE : </td>
+                    </tr>
+                    <tr>
+                        <td>DATE ET LIEU DE NAISSANCE</td>
+                        <td><span t-field="e.birthday"/></td>
+                        <td colspan="2">à : <span t-field="e.place_of_birth"/></td>
+                    </tr>
+                    <tr>
+                        <td>CIN</td>
+                        <td>N° <span t-field="e.otherid"/></td>
+                        <td>Délivré le : <span t-field="e.cin_delivery"/></td>
+                        <td>à :  <span t-field="e.cin_town"/></td>
+                    </tr>
+                    <tr>
+                        <td>DUPLICATA</td>
+                        <td>Du : </td>
+                        <td colspan="2">à </td>
+                    </tr>
+                    <tr>
+                        <td>FILS (FILLE) DE</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>ET DE</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>ADRESSE</td>
+                        <td colspan="3">
+                            <address
+                                t-field="e.address_home_id"
+                                t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TELEPHONE</td>
+                        <td class="text-center"><span t-field="e.work_phone"/></td>
+                        <td class="text-center"><span t-field="e.mobile_phone"/></td>
+                        <td class="text-center"></td>
+                    </tr>
+                    <tr>
+                        <td>SITUATION FAMILIALE</td>
+                        <td colspan="3"><span t-field="e.marital"/></td>
+                    </tr>
+                    <tr>
+                        <td>EN CAS D'URGENCE PREVENIR</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>INFOS SANTE</td>
+                        <td>Groupe Sanguin :</td>
+                        <td>Allergie :</td>
+                        <td>Autres :</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">AUTRES INFOS</td>
+                        <td colspan="3"> - </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> - </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> - </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> - </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> - </td>
+                    </tr>
+                </table>
+                <br/><br/><br/><br/><br/><br/><br/>
+                <table class="table table-bordered">
+                    <tr>
+                        <td colspan="6" class="text-center"><strong>ENFANTS A CHARGES</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center" style="width: 23%">NOM</td>
+                        <td class="text-center" style="width: 25%">PRENOM</td>
+                        <td class="text-center" style="width: 5%">SEXE</td>
+                        <td class="text-center" style="width: 12%">DATE DE NAISSANCE</td>
+                        <td class="text-center" style="width: 25%">ETABLISSSEMENT SCOLAIRE</td>
+                        <td class="text-center" style="width: 10%">CLASSE</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-center"><strong>DIPLOMES</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">ANNEE D'OBTENTION</td>
+                        <td colspan="3" class="text-center">TYPE DIPLOMES</td>
+                        <td colspan="2" class="text-center">ETABLISSEMENTS</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td colspan="2">-</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td colspan="2">-</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3"></td>
+                        <td colspan="2">-</td>
+                    </tr>
+                    <tr>
+                        <td>.</td>
+                        <td colspan="3"></td>
+                        <td colspan="2">-</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer text-right">
+                <span>Page </span><span class="page"/> sur <span class="topage"/>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

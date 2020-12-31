@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_iri">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <div class="text-center">
+                    <h4><b>REPOBLIKAN'I MADAGASIKARA</b></h4>
+                </div>
+                <div class="text-center">
+                    Fitiavana - Tanindrazana - Fandrosoana
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4 text-center">
+                        MINISTERE<br/>
+                        DES FINANCES ET DU BUDGET<br/>
+                        -----<br/>
+                        SECRETARIAT GENERAL<br/>
+                        -----<br/>
+                        DIRECTION GENERALE DES IMPOTS<br/>
+                        -----<br/>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <!-- <img t-if="o" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 125;" alt="logo"/> -->
+                        <img src="/l10n_mg_hr_payroll/static/src/img/dgi.png" style="max-height: 130;" alt="logo"/>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <div class="text-center">
+                    <h2>Impôts sur les Revenus<br/>INTERMITTENTS</h2>
+                </div>
+                <br/><br/><br/><br/>
+                <div class="row">
+                    <div class="col-xs-4">Raison sociale de l'entreprise :</div>
+                    <div class="col-xs-8"><strong><span t-field="o.company_id.name"/> SARL</strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4">Siège social de l'entreprise :</div>
+                    <div class="col-xs-8"><strong><span t-field="o.company_id.street2"/></strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4">NIF : </div>
+                    <div class="col-xs-8"><strong><span t-field="o.company_id.company_registry"/></strong></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4">Période : </div>
+                    <div class="col-xs-8"><strong><span t-field="o.name"/></strong></div>
+                </div>
+                <br/><br/><br/>
+                <p><strong>DECLARATION ET LIQUIDATION</strong></p>
+                <br/><br/>
+                <div class="row">
+                    <div class="col-xs-1"> </div>
+                    <div class="col-xs-4">MONTANT TOTAL ACHATS</div>
+                    <strong>
+                    <div class="col-xs-3 text-right"><span t-field="o.net_total"/></div>
+                    <div class="col-xs-4 text-left">Ariary (MGA)</div>
+                    </strong>
+                </div><br/>
+                <div class="row">
+                    <div class="col-xs-1"> </div>
+                    <div class="col-xs-4">TAUX</div>
+                    <strong>
+                    <div class="col-xs-3 text-right"> 5 %</div>
+                    <div class="col-xs-4 text-left"> </div>
+                    </strong>
+                </div><br/>
+                <div class="row">
+                    <div class="col-xs-1"> </div>
+                    <div class="col-xs-4">IMPOT A PAYER</div>
+                    <strong>
+                    <div class="col-xs-3 text-right"><span t-field="o.iri_total"/></div>
+                    <div class="col-xs-4 text-left">Ariary (MGA)</div>
+                    </strong>
+                </div>
+                <br/><br/>
+                <div> ________________________________________________________________________________________________________________</div>
+                <p>Je certifie que les informations fournies sont correctes, et complètes sur l'impôt correspondant.</p>
+                <br/><br/><br/><br/><br/>
+                <div class="row">
+                    <div class="col-xs-2">Signature : </div>
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-2">Date : </div>
+                    <div class="col-xs-4"></div>
+                </div><br/>
+                <div>Titre : </div>
+                <br/><br/>
+                <div> ________________________________________________________________________________________________________________</div>
+                <div class="text-right">Signature de l'Administration fiscale</div>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>

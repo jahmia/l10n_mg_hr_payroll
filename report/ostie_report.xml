@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_ostie">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <div class="header">
+                <style type="text/css">
+                .table > thead > tr > th,
+                .table > tbody > tr > th,
+                .table > tfoot > tr > th,
+                .table > thead > tr > td,
+                .table > tbody > tr > td,
+                .table > tfoot > tr > td {
+                    padding: 8px;
+                    vertical-align: top;
+                    border-top: none;
+                    border-bottom: none;
+                }
+                </style>
+                <table class="table table-condensed">
+                    <tr>
+                        <td style="text-align: center; width: 50%">
+                            <strong>
+                                <p>ORGANISATION SANITAIRE TANANARIVIENNE INTER-ENTREPRISES</p>
+                                <p>O.S.T.I.E</p>
+                            </strong>
+                            <span style="font-style: italic">"Pour le bien-être des Travailleurs et de leurs Familles"</span>
+                        </td>
+                        <td style="text-align: center">
+                            <p><strong>DECLARATION NOMINATIVE DES SALAIRES du <span t-field="o.trimestre"/><![CDATA[&nbsp;]]><span t-field="o.year"/></strong></p>
+                            <p>Date limite du paiement: <span t-field="o.date_limit"/></p>
+                        </td>
+                    </tr>
+                </table>
+                <div class="row">
+                    <div class="col-xs-5 text-left">
+                        <table class="table" style="margin-bottom: 0px">
+                            <tr><td>B.P 165 ANTANANARIVO -TEL 22 265 78/22 274 76/ 22 676 52</td></tr>
+                            <tr><td>Direction générale: Làlana Dr Zamenhof - Behoririka</td></tr>
+                            <tr><td><strong>BMOI Analamahitsy</strong></td></tr>
+                        </table>
+                        <table class="table">
+                            <tr>
+                                <td style="width: 35%">Code Banque:</td>
+                                <td>00004</td>
+                            </tr>
+                            <tr>
+                                <td>Code Agence:</td>
+                                <td>00003   </td>
+                            </tr>
+                            <tr>
+                                <td>N° Compte:</td>
+                                <td>01500800184</td>
+                            </tr>
+                            <tr>
+                                <td>RIB:</td>
+                                <td>32</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-2">
+                    </div>
+                    <div class="col-xs-5">
+                        <table class="table">
+                            <tr>
+                                <td style="text-align: left; width: 25%">Code Adhérent:</td>
+                                <td colspan="3" style="text-align: left"><span t-field="o.company_id.ostie_code_adherent"/></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Dénomination:</td>
+                                <td colspan="3" style="text-align: left"><span t-field="o.company_id.name"/> SARL</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Adresse:</td>
+                                <td colspan="3" style="text-align: left"><span t-field="o.company_id.street2"/></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 35%">Taux employeur:</td>
+                                <td>13%</td>
+                                <td style="width: 35%">Taux travailleur:</td>
+                                <td style="text-align: left">1%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page">
+                <table class="table table-condensed table-bordered" style="font-size: small">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">N°</th>
+                            <th style="text-align: center; vertical-align: middle;">Matricule</th>
+                            <th style="text-align: center; vertical-align: middle;">Nom Et Prénoms du travailleur</th>
+                            <th style="text-align: center; vertical-align: middle;">Sexe</th>
+                            <th style="text-align: center; vertical-align: middle;">TT</th>
+                            <th style="text-align: center; vertical-align: middle;">1er Mois</th>
+                            <th style="text-align: center; vertical-align: middle;">TT</th>
+                            <th style="text-align: center; vertical-align: middle;">2ème Mois</th>
+                            <th style="text-align: center; vertical-align: middle;">TT</th>
+                            <th style="text-align: center; vertical-align: middle;">3ème Mois</th>
+                            <th style="text-align: center; vertical-align: middle;">Total SB</th>
+                            <th style="text-align: center; vertical-align: middle;">Cotisation Empl.</th>
+                            <th style="text-align: center; vertical-align: middle;">Cotisation Trav.</th>
+                            <th style="text-align: center; vertical-align: middle;">Observations</th>
+                        </tr>
+                    </thead>
+                    <tbody t-foreach="o.ostie_lines" t-as="line">
+                        <td style="text-align: center;"><span t-esc="line_index + 1"/></td>
+                        <td style="text-align: center;"><span t-field="line.employee_id.identification_id"/></td>
+                        <td><span t-field="line.employee_id.name"/></td>
+                        <td style="text-align: center;">
+                            <span t-if="line.employee_id.gender == 'male'">H</span>
+                            <span t-if="line.employee_id.gender == 'female'">F</span>
+                        </td>
+                        <td style="text-align: center;"><t t-if="line.month_1">30J</t></td>
+                        <td style="text-align: right;"><t t-if="line.month_1"><span t-field="line.month_1"/></t></td>
+                        <td style="text-align: center;"><t t-if="line.month_2">30J</t></td>
+                        <td style="text-align: right;"><t t-if="line.month_2"><span t-field="line.month_2"/></t></td>
+                        <td style="text-align: center;"><t t-if="line.month_3">30J</t></td>
+                        <td style="text-align: right;"><t t-if="line.month_3"><span t-field="line.month_3"/></t></td>
+                        <td style="text-align: right;"><span t-field="line.brute_total"/></td>
+                        <td style="text-align: right;"><span t-field="line.ostie_employer"/></td>
+                        <td style="text-align: right;"><span t-field="line.ostie_worker"/></td>
+                        <td><span t-field="line.observation"/></td>
+                    </tbody>
+                </table>
+
+                <strong><u>Mode de règlement</u></strong>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <table class="table table-bordered">
+                            <tr t-if="o.payment_mode == 'espece'">
+                                <td class="text-left">Espèces</td>
+                            </tr>
+                            <tr t-if="o.payment_mode == 'cheque'">
+                                <td class="text-left">Chèque n°</td>
+                                <td><span t-field="o.cheque_number"/></td>
+                                <td class="text-left">Banque</td>
+                                <td><span t-field="o.bank"/></td>
+                            </tr>
+                            <tr t-if="o.payment_mode == 'virement'">
+                                <td class="text-left">Virement Bancaire</td>
+                                <td></td>
+                                <td class="text-left">Banque</td>
+                                <td><span t-field="o.bank"/></td>
+                            </tr>
+                            <tr t-if="o.payment_mode == 'cheque'">
+                                <td class="text-left">Numero récépissé déclaration</td>
+                                <td><span t-field="o.voucher_number_1"/></td>
+                                <td class="text-left">du</td>
+                                <td><span t-field="o.voucher_number_date"/></td>
+                            </tr>
+                            <tr t-if="o.payment_mode == 'virement'">
+                                <td class="text-left">Numero reçu de paiement</td>
+                                <td><span t-field="o.voucher_number_2"/></td>
+                                <td class="text-left">du</td>
+                                <td><span t-field="o.voucher_number_date"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Total des cotisations:</td>
+                                <td><span t-field="o.ostie_total"/></td>
+                            </tr>
+                            <tr>
+                                <td>Majoration de retard 10%:</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Solde période antérieure:</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Trop perçu antérieure à déduire:</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-7"></div>
+                    <div class="col-xs-2">
+                        <span>NET A PAYER:</span>
+                    </div>
+                    <div class="col-xs-3 text-left">
+                        <strong>
+                            <span t-field="o.net_total"/>
+                        </strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-9">
+                        <p>Antananarivo, le, <span t-field="o.date_document"/></p>
+                        <p>Certifié sincère et conforme</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="footer">
+                <!-- <div class="text-center" style="font-size: x-small">
+                    <ul class="list-inline">
+                        <li t-if="o.company_id.name"><span t-field="o.company_id.name"/> S.A.R.L</li>
+
+                        <li t-if="o.company_id.street2"><span t-field="o.company_id.street2"/></li>
+
+                        <li t-if="o.company_id.city"><span t-field="o.company_id.city"/></li>
+
+                        <li t-if="o.company_id.zip"><span t-field="o.company_id.zip"/></li>
+
+                        <li t-if="o.company_id.siret">| STAT <span t-field="o.company_id.siret"/></li>
+
+                        <li t-if="o.company_id.company_registry">NIF <span t-field="o.company_id.company_registry"/></li>
+                        <br/>
+                        <li t-if="o.company_id.website">Site Web : <span t-field="o.company_id.website"/></li>
+
+                        <li t-if="o.company_id.email">Email : <span t-field="o.company_id.email"/></li>
+
+                        <li t-if="o.company_id.fax or o.company_id.phone">Tel: </li>
+                        <li t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></li>
+                        <li t-if="o.company_id.fax and o.company_id.phone">/ <span t-field="o.company_id.fax"/></li>
+                    </ul>
+                </div> -->
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>
