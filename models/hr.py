@@ -2,7 +2,7 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import fields, models, _
 
 _logger = logging.getLogger(__name__)
 
@@ -11,11 +11,16 @@ class hr_employee(models.Model):
     _inherit = "hr.employee"
 
     department_id = fields.Many2one('hr.department', string='Department', required=False)
-    employee_type = fields.Selection([('cdi', 'CDI'), ('prestataire', 'Prestataire')], required=True, default='prestataire', string='Type Contrat')
+    employee_type = fields.Selection([('cdi', 'CDI'), ('prestataire', 'Prestataire')], required=True, default='cdi', string='Type Contrat')
     cin_town = fields.Char('Fait à', translate=False, help="Lieu de délivrance du CIN")
     cin_delivery = fields.Date('Le', help="Date de délivrance du CIN")
     cnaps = fields.Char('N° CNaPS', size=20)
     indice = fields.Integer('Indice', size=4)
+
+    _sql_constraints = [
+        ('identification_id_unique', 'unique (company_id, identification_id)', _('The Identification No must be unique per company !')),
+        ('cnaps_number_unique', 'unique (cnaps)', _('This CNAPS is already associated to an employee !'))
+    ]
 
     def get_employee_id(self):
         res = False

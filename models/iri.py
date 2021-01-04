@@ -2,11 +2,11 @@
 
 import calendar
 import logging
-from datetime import datetime
+from datetime import date, datetime
 
 from . import get_years_from
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -32,11 +32,11 @@ class Iri(models.Model):
     def _name_get(self):
         res = {}
         for record in self:
-            month_str = self.env['hr.iri']._MONTH[record.month - 1][1]
+            month_str = self._MONTH[record.month - 1][1]
             res[record.id] = month_str + ' ' + str(record.year)
         return res
 
-    def _get_total(self, field_name, arg):
+    def _get_total(self):
         res = {}
         for f in self:
             res[f.id] = {
@@ -51,28 +51,20 @@ class Iri(models.Model):
     name = fields.Char(compute='_name_get', type="char",
                        string='Name', store=True)
     title = fields.Char('Titre', translate=True)
-    company_id = fields.Many2one('res.company', 'Dénomination', required=True)
+    company_id = fields.Many2one('res.company', 'Dénomination', required=True, default= lambda self: self.env.user.company_id)
     signature = fields.Char('Signature', translate=True)
-    year = fields.Selection(get_years_from(2012), 'Année', required=True)
-    month = fields.Selection(_MONTH, 'Mois', index=True, required=True)
-    date_document = fields.Date('Date du document')
+    year = fields.Selection(get_years_from(2012), 'Année', required=True, default=lambda *a: datetime.now().year)
+    month = fields.Selection(_MONTH, 'Mois', index=True, required=True, default=lambda *a: datetime.now().month)
+    date_document = fields.Date('Date du document', default=lambda *a: date.today())
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'To Pay'),
-        ('done', 'Payed'), ], 'État', index=True, readonly=True, copy=False)
+        ('done', 'Payed'), ], 'État', index=True, default='draft', readonly=True, copy=False)
     iri_lines = fields.One2many('hr.iri.line', 'iri_id', 'IRI lines')
     net_total = fields.Float(compute='_get_total', multi='total',
                              string="Total Prestation NET", digits=(8, 2), store=True)
     iri_total = fields.Float(compute='_get_total', multi='total',
                              string="TOTAL IRI", digits=(8, 2), store=True)
-
-    _defaults = {
-        'company_id': lambda self: self.env.user.company_id,
-        'year': lambda *a: datetime.now().year,
-        'month': lambda *a: datetime.now().month,
-        'date_document': lambda *a: datetime.now(),
-        'state': 'draft',
-    }
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name, company_id)', 'Ce document existe déjà!'),
@@ -121,12 +113,9 @@ class Iri(models.Model):
             self.write({'iri_lines': iri_lines})
         return True
 
-    def onchange_month(self, month):
-        if month in (1, 2, 3, 4, 5, 6):
-            res = {'value': {'semestre': 1}}
-        else:
-            res = {'value': {'semestre': 2}}
-        return res
+    @api.onchange('month')
+    def onchange_month(self):
+        self.semestre = 1 if self.month in (1, 2, 3, 4, 5, 6) else 2
 
 
 class IriLine(models.Model):

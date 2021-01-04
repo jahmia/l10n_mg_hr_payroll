@@ -5,8 +5,8 @@ import logging
 
 from . import get_years_from
 
-from datetime import datetime
-from odoo import fields, models
+from datetime import date, datetime
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class Irsa(models.Model):
     def _name_get(self):
         res = {}
         for record in self:
-            month_str = self.env['hr.irsa']._MONTH[record.month - 1][1]
+            month_str = self._MONTH[record.month - 1][1]
             res[record.id] = month_str + ' ' + str(record.year)
         return res
 
@@ -64,16 +64,16 @@ class Irsa(models.Model):
 
     name = fields.Char(compute='_name_get', type="char",
                        string='Name', store=True)
-    company_id = fields.Many2one('res.company', 'Dénomination', required=True)
-    year = fields.Selection(get_years_from(2012), 'Année', required=True)
-    month = fields.Selection(_MONTH, 'Mois', index=True, required=True)
+    company_id = fields.Many2one('res.company', 'Dénomination', required=True, default=lambda self: self.env.user.company_id)
+    year = fields.Selection(get_years_from(2012), 'Année', required=True, default=lambda *a: datetime.now().year)
+    month = fields.Selection(_MONTH, 'Mois', index=True, required=True, default=lambda *a: datetime.now().month)
     semestre = fields.Selection(
         [(1, '1er Semestre'), (2, '2eme Semestre')], 'Semestre')
-    date_document = fields.Date('Date du document')
+    date_document = fields.Date('Date du document', default=lambda *a: date.today())
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'To Pay'),
-        ('done', 'Payed'), ], 'État', index=True, readonly=True, copy=False)
+        ('done', 'Payed'), ], 'État', index=True, readonly=True, default='draft', copy=False)
     irsa_lines = fields.One2many('hr.irsa.line', 'irsa_id', 'IRSA lines')
     base_total = fields.Float(
         compute='_get_total', multi='total', string="TOTAL BASE", digits=(8, 2), store=True)
@@ -93,14 +93,6 @@ class Irsa(models.Model):
                              string="Total Salaire NET", digits=(8, 2), store=True)
     irsa_total = fields.Float(
         compute='_get_total', multi='total', string="TOTAL IRSA", digits=(8, 2), store=True)
-
-    _defaults = {
-        'company_id': lambda self: self.env.user.company_id,
-        'year': lambda *a: datetime.now().year,
-        'month': lambda *a: datetime.now().month,
-        'date_document': lambda *a: datetime.now(),
-        'state': 'draft',
-    }
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name, company_id)', 'Ce document existe déjà!'),
@@ -134,29 +126,29 @@ class Irsa(models.Model):
                 ('employee_id', 'in', employee_ids),
                 ('state', '=', 'done')])
             for slip in slip_ids:
-                Base = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'BASIC')], limit=1)
-                base = Base.total
+                base = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'BASIC')], limit=1)
+                base = base.total
 
-                Brute = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'GROSS')], limit=1)
-                brute = Brute.total
+                brute = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'GROSS')], limit=1)
+                brute = brute.total
 
-                CnapsWorker = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'CNAPS')], limit=1)
-                cnaps_worker = CnapsWorker.total
+                cnaps_worker = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'CNAPS')], limit=1)
+                cnaps_worker = cnaps_worker.total
 
-                CnapsEmployer = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'CNAPS_E')], limit=1)
-                cnaps_employer = CnapsEmployer.total
+                cnaps_employer = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'CNAPS_E')], limit=1)
+                cnaps_employer = cnaps_employer.total
 
-                OstieWorker = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'OSTIE')], limit=1)
-                ostie_worker = OstieWorker.total
+                ostie_worker = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'OSTIE')], limit=1)
+                ostie_worker = ostie_worker.total
 
-                OstieEmployer = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'OSTIE_E')], limit=1)
-                ostie_employer = OstieEmployer.total
+                ostie_obj = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'OSTIE_E')], limit=1)
+                ostie_employer = ostie_obj.total
 
-                Net = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'NET')], limit=1)
-                net = Net.total
+                net_obj = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'NET')], limit=1)
+                net = net_obj.total
 
-                Irsa = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'IRSA')], limit=1)
-                irsa = Irsa.total
+                irsa_obj = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'IRSA')], limit=1)
+                irsa = irsa_obj.total
 
                 irsa_lines.append((0, 0, {
                     'irsa_id': f.id,
@@ -176,12 +168,9 @@ class Irsa(models.Model):
             self.write({'irsa_lines': irsa_lines})
         return True
 
-    def onchange_month(self, month):
-        if month in (1, 2, 3, 4, 5, 6):
-            res = {'value': {'semestre': 1}}
-        else:
-            res = {'value': {'semestre': 2}}
-        return res
+    @api.onchange('month')
+    def onchange_month(self):
+        self.semestre = 1 if self.month in (1, 2, 3, 4, 5, 6) else 2
 
 
 class IrsaLine(models.Model):

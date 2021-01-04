@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import calendar
-import datetime
 import logging
 
-from . import get_years_from
+from . import get_date_interval, get_years_from
 
-from datetime import date
+from datetime import date, datetime, timedelta
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -25,7 +24,7 @@ class Ostie(models.Model):
     def _name_get(self):
         res = {}
         for record in self:
-            trim_str = self.env['hr.ostie']._TRIMESTRE[record.trimestre - 1][1]
+            trim_str = self._TRIMESTRE[record.trimestre - 1][1]
             res[record.id] = str(record.year) + ' - ' + trim_str
         return res
 
@@ -45,14 +44,14 @@ class Ostie(models.Model):
 
     name = fields.Char(compute='_name_get', type="char", string='Name', store=True)
     company_id = fields.Many2one('res.company', 'Dénomination', required=True, default=lambda self: self.env.user.company_id)
-    year = fields.Selection(get_years_from(2012), 'Année', required=True)
+    year = fields.Selection(get_years_from(2012), 'Année', required=True, default=lambda *a: datetime.now().year)
     trimestre = fields.Selection(_TRIMESTRE, 'Trimestre', index=True, required=True)
-    date_document = fields.Date('Date du document')
-    date_limit = fields.Date('Date limite de paiement')
+    date_document = fields.Date('Date du document', default=lambda *a: date.today())
+    date_limit = fields.Date('Date limite de paiement', default=lambda *a: date.today() + timedelta(days=30))
     payment_mode = fields.Selection([
         ('espece', 'Espèces'),
         ('cheque', 'Chèque'),
-        ('virement', 'Virement Bancaire')], 'Mode de paiement', default='espece', required=True)
+        ('virement', 'Virement Bancaire')], 'Mode de paiement', default='cheque', required=True)
     cheque_number = fields.Char('Chèque N°', size=40)
     bank_transfer = fields.Char('Virement Bancaire N°', size=40)
     bank = fields.Char('Banque', size=40)
@@ -71,12 +70,6 @@ class Ostie(models.Model):
     solde_previous = fields.Float(string="Solde période antérieure", digits=(8, 2))
     a_deduire = fields.Float(string="Trop perçu antérieure à déduire", digits=(8, 2))
     net_total = fields.Float(compute='_get_total', multi='total', string="NET A PAYER", digits=(8, 2), store=True)
-
-    _defaults = {
-        'year': lambda *a: datetime.datetime.now().year,
-        'date_document': lambda *a: datetime.datetime.now(),
-        'date_limit': lambda *a: date.today() + datetime.timedelta(days=30),
-    }
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name, company_id)', 'Ce document existe déjà!'),
@@ -103,18 +96,7 @@ class Ostie(models.Model):
             old_f_lines = f_line_obj.search([('ostie_id', '=', o.id)])
             if old_f_lines:
                 old_f_lines.unlink()
-            if o.trimestre == 1:
-                date_from = '%s-01-01' % o.year
-                date_to = '%s-03-31' % o.year
-            elif o.trimestre == 2:
-                date_from = '%s-04-01' % o.year
-                date_to = '%s-06-30' % o.year
-            elif o.trimestre == 3:
-                date_from = '%s-07-01' % o.year
-                date_to = '%s-09-30' % o.year
-            elif o.trimestre == 4:
-                date_from = '%s-10-01' % o.year
-                date_to = '%s-12-31' % o.year
+            date_from, date_to = get_date_interval({'year': o.year, 'trimestre': o.trimestre})
             employee_ids = self.env['hr.employee'].search([('employee_type', '=', 'cdi')]).mapped('id')
             slip_ids = slip_obj.search([
                 ('date_from', '>=', date_from),
@@ -132,7 +114,7 @@ class Ostie(models.Model):
                 tt3 = 0
                 ostie_worker = 0
                 ostie_employer = 0
-                date_from_temp = datetime.datetime.strptime(date_from, "%Y-%m-%d").date()
+                date_from_temp = datetime.strptime(date_from, "%Y-%m-%d").date()
                 month_t = date_from_temp.month
                 date_to = date_from_temp.replace(day=calendar.monthrange(date_from_temp.year, date_from_temp.month)[1])
                 slip_id = slip_obj.search([

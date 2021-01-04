@@ -2,11 +2,11 @@
 
 import calendar
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
-from . import get_years_from
+from . import get_date_interval, get_years_from
 
-from odoo import fields, models
+from odoo import fields, models, _
 
 _logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Cnaps(models.Model):
     def _name_get(self):
         res = {}
         for record in self:
-            trim_str = self.env['hr.cnaps']._TRIMESTRE[record.trimestre - 1][1]
+            trim_str = self._TRIMESTRE[record.trimestre - 1][1]
             res[record.id] = str(record.year) + ' - ' + trim_str
         return res
 
@@ -50,18 +50,18 @@ class Cnaps(models.Model):
 
     name = fields.Char(compute='_name_get', type="char",
                        string='Name', store=True)
-    company_id = fields.Many2one('res.company', 'Dénomination', required=True)
-    year = fields.Selection(get_years_from(2012), 'Année', required=True)
+    company_id = fields.Many2one('res.company', 'Dénomination', required=True, default=lambda self: self.env.user.company_id)
+    year = fields.Selection(get_years_from(2012), 'Année', required=True, default=lambda *a: datetime.now().year)
     trimestre = fields.Selection(_TRIMESTRE, 'Trimestre', index=True, required=True)
-    date_document = fields.Date('Date du document')
-    date_limit = fields.Date('Date limite de paiement')
+    date_document = fields.Date('Date du document', default=lambda *a: date.today())
+    date_limit = fields.Date('Date limite de paiement', default=lambda *a: date.today() + timedelta(days=30))
     payment_mode = fields.Selection([
         (1, 'Trésor/Avis de crédit'),
         (2, 'Espèces'),
         (3, 'Chèque'),
         (4, 'Virement'),
         (5, 'Virement Postal'),
-        (6, 'MVola')], 'Mode de paiement', required=True)
+        (6, 'MVola')], 'Mode de paiement', required=True, default=3)
     date_payment = fields.Date(
         'Date de paiement', help="Date de paiement ou de versement.")
     reference_payment = fields.Text('N°', help="Référence ou N° du règlement.")
@@ -73,7 +73,7 @@ class Cnaps(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'To Pay'),
-        ('done', 'Payed'), ], 'État', index=True, readonly=True, copy=False)
+        ('done', 'Payed'), ], 'État', index=True, default='draft', readonly=True, copy=False)
     cnaps_lines = fields.One2many('hr.cnaps.line', 'cnaps_id', 'CNaPS')
     total_brute_declared = fields.Float(
         compute='_get_total', multi='total', string="Total Salaires Déclarés", digits=(8, 2), store=True)
@@ -93,17 +93,8 @@ class Cnaps(models.Model):
     net_total = fields.Float(compute='_get_total', multi='total',
                              string="NET A PAYER", digits=(8, 2), store=True)
 
-    _defaults = {
-        'year': lambda *a: datetime.now().year,
-        'company_id': lambda self: self.env.user.company_id,
-        'date_document': lambda *a: datetime.now(),
-        'date_limit': lambda *a: date.today() + datetime.timedelta(days=30),
-        'payment_mode': 2,
-        'state': 'draft',
-    }
-
     _sql_constraints = [
-        ('name_company_uniq', 'unique(name, company_id)', 'Ce document existe déjà!'),
+        ('name_company_uniq', 'unique(name, company_id)', _('File already exists')),
     ]
 
     def onchange_date(self):
@@ -126,18 +117,7 @@ class Cnaps(models.Model):
             old_f_lines = f_line_obj.search([('cnaps_id', '=', o.id)])
             if old_f_lines:
                 old_f_lines.unlink()
-            if o.trimestre == 1:
-                date_from = '%s-01-01' % o.year
-                date_to = '%s-03-31' % o.year
-            elif o.trimestre == 2:
-                date_from = '%s-04-01' % o.year
-                date_to = '%s-06-30' % o.year
-            elif o.trimestre == 3:
-                date_from = '%s-07-01' % o.year
-                date_to = '%s-09-30' % o.year
-            elif o.trimestre == 4:
-                date_from = '%s-10-01' % o.year
-                date_to = '%s-12-31' % o.year
+            date_from, date_to = get_date_interval({'year': o.year, 'trimestre': o.trimestre})
             employee_ids = self.env['hr.employee'].search([('employee_type', '=', 'cdi')])
             slip_ids = slip_obj.search([
                 ('date_from', '>=', date_from), ('date_to', '<=', date_to),
