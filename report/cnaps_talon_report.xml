@@ -20,7 +20,7 @@
 						<strong>
 							<p>TALON DES DECLARATIONS</p>
 							<p>NOMINATIVES DES SALAIRIES</p><br/>
-							<p class="text-left">PÉRIODE: <span t-field="o.trimestre"/> <span t-field="o.year"/></p>
+							<p class="text-left">PÉRIODE: <span t-field="o.trimester"/> <span t-field="o.year"/></p>
 						</strong>
 					</div>
 				</div>

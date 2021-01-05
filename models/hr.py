@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
 from odoo import fields, models, _
 
-_logger = logging.getLogger(__name__)
 
-
-class hr_employee(models.Model):
+class Employee(models.Model):
     _inherit = "hr.employee"
 
     department_id = fields.Many2one('hr.department', string='Department', required=False)
@@ -42,6 +38,3 @@ class hr_employee(models.Model):
             employee = self.browse(employee_id)
             department_id = employee.department_id.id
         return department_id
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

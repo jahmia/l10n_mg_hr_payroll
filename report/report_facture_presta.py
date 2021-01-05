@@ -30,7 +30,6 @@ class InvoicePrestaReport():
     def get_holidays(self, obj):
         result = []
         pris = 0
-        res = {}
         for w in obj.worked_days_line_ids:
             if w.code == 'ABS':
                 pris += w.number_of_days
@@ -44,8 +43,6 @@ class InvoicePrestaReport():
 
     def get_net(self):
         payslip_line = self.env['hr.payslip.line']
-        res = []
-        ids = []
         ids = payslip_line.search([('code', '=', 'P_NET'), ('slip_id', '=', self.id)], limit=1)
         res = payslip_line.browse(ids) if ids else []
         return res
@@ -70,6 +67,3 @@ class WrappedReportFacturePresta(AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'l10n_mg_hr_payroll.report_facture_presta'
     _wrapped_report_class = InvoicePrestaReport
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

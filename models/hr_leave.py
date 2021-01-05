@@ -7,6 +7,3 @@ class LeaveType(models.Model):
     _inherit = "hr.leave.type"
 
     deduced = fields.Boolean('Deduced', help='If checked, this leaves is deduced from the payslip.')
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

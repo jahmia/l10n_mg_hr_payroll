@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 def to_letters(number):
-    ''' Given a number, convert it to letters
-        @number (int) '''
+    """ Given a number, convert it to letters
+        @number (int) """
     # TODO: Process float numbers
     schu = ["", "UN ", "DEUX ", "TROIS ", "QUATRE ", "CINQ ", "SIX ", "SEPT ", "HUIT ", "NEUF "]
     schud = ["DIX ", "ONZE ", "DOUZE ", "TREIZE ", "QUATORZE ", "QUINZE ", "SEIZE ", "DIX SEPT ", "DIX HUIT ", "DIX NEUF "]

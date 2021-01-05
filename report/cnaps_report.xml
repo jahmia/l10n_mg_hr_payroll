@@ -28,7 +28,7 @@
                     <div class="col-xs-4 text-center" style="margin-top: 7px">
                         <strong>
                             <p>DECLARATION NOMINATIVE DES SALAIRES VERSES</p><br/>
-                            <p>AU TITRE DU <span t-field="o.trimestre"/> <span t-field="o.year"/></p><br/>
+                            <p>AU TITRE DU <span t-field="o.trimester"/> <span t-field="o.year"/></p><br/>
                             <p>DATE IMPERATIVE DE RETOUR: <span t-field="o.date_limit"/></p>
                         </strong>
                     </div>

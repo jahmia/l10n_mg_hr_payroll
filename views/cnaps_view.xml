@@ -33,7 +33,7 @@
                         <group col="4">
                             <field name="year"/>
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="trimestre"/>
+                            <field name="trimester"/>
                             <field name="date_document"/>
                             <field name="cnaps_total"/>
                             <field name="majoration"/>

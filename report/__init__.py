@@ -6,6 +6,3 @@ from . import report_payslip
 # from . import report_irsa
 # from . import report_ostie
 from . import number
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -12,17 +12,17 @@ def get_years_from(begining):
 
 
 def get_date_interval(o):
-    """Get trimestre interval switch input date
+    """Get trimester interval switch input date
         :param o: dict
         :return tuple of date:
     """
-    if o['trimestre'] == 1:
+    if o['trimester'] == 1:
         date_from = '%s-01-01' % o['year']
         date_to = '%s-03-31' % o['year']
-    elif o['trimestre'] == 2:
+    elif o['trimester'] == 2:
         date_from = '%s-04-01' % o['year']
         date_to = '%s-06-30' % o['year']
-    elif o['trimestre'] == 3:
+    elif o['trimester'] == 3:
         date_from = '%s-07-01' % o['year']
         date_to = '%s-09-30' % o['year']
     else:

@@ -47,6 +47,3 @@ class WrappedReportIrsa(AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'l10n_mg_hr_payroll.report_irsa'
     _wrapped_report_class = IrsaReport
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

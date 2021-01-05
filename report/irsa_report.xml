@@ -11,7 +11,7 @@
                         <p>SERVICE DES CONTRIBUTIONS DIRECTES</p>
                         <p>ANNEE <span t-field="o.year"/></p>
                         <p>AU TITRE DU MOIS <span class="text-uppercase" t-esc="get_month(o.month)"/></p>
-                        <p>SEMESTRE <span class="text-uppercase" t-esc="o.semestre"/></p>
+                        <p>SEMESTRE <span class="text-uppercase" t-esc="o.semester"/></p>
                     </strong>
                 </div>
             </div>

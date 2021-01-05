@@ -3,7 +3,7 @@
 from odoo import fields, models
 
 
-class res_company(models.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
     slogan = fields.Char('Slogan', size=128)
@@ -17,7 +17,7 @@ class res_company(models.Model):
     ostie_code_adherent = fields.Char('Code Adhérent', size=10)
 
 
-class res_partner_bank(models.Model):
+class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
     def _get_iban(self):
@@ -32,6 +32,3 @@ class res_partner_bank(models.Model):
     rib_key = fields.Integer('Clé RIB', size=2)
     control_key = fields.Integer('Clé de contrôle', size=2)
     iban = fields.Char(compute='_get_iban', size=34, string='IBAN', store=True, readonly=True)
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -46,6 +46,3 @@ class WrappedReportFunhece(AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'l10n_mg_hr_payroll.report_funhece'
     _wrapped_report_class = FunheceReport
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

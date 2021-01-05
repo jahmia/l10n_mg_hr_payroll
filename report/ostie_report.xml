@@ -28,7 +28,7 @@
                             <span style="font-style: italic">"Pour le bien-être des Travailleurs et de leurs Familles"</span>
                         </td>
                         <td style="text-align: center">
-                            <p><strong>DECLARATION NOMINATIVE DES SALAIRES du <span t-field="o.trimestre"/><![CDATA[&nbsp;]]><span t-field="o.year"/></strong></p>
+                            <p><strong>DECLARATION NOMINATIVE DES SALAIRES du <span t-field="o.trimester"/><![CDATA[&nbsp;]]><span t-field="o.year"/></strong></p>
                             <p>Date limite du paiement: <span t-field="o.date_limit"/></p>
                         </td>
                     </tr>

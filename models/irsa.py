@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import calendar
-import logging
 
 from . import get_years_from
 
 from datetime import date, datetime
 from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
 
 
 class Irsa(models.Model):
@@ -30,69 +27,44 @@ class Irsa(models.Model):
         (12, 'Décembre')]
 
     def _name_get(self):
-        res = {}
         for record in self:
             month_str = self._MONTH[record.month - 1][1]
-            res[record.id] = month_str + ' ' + str(record.year)
-        return res
+            record.name = ' '.join([month_str, str(record.year)])
 
     def _get_total(self):
-        res = {}
-        for f in self:
-            res[f.id] = {
-                'base_total': 0,
-                'brute_total': 0,
-                'child_number_total': 0,
-                'cnaps_total_worker': 0,
-                'ostie_total_worker': 0,
-                'cnaps_total_employer': 0,
-                'ostie_total_employer': 0,
-                'net_total': 0,
-                'irsa_total': 0,
-            }
-            for line in f.irsa_lines:
-                res[f.id]['base_total'] += line.base
-                res[f.id]['brute_total'] += line.brute
-                res[f.id]['child_number_total'] += line.child_number
-                res[f.id]['cnaps_total_worker'] += line.cnaps_worker
-                res[f.id]['ostie_total_worker'] += line.ostie_worker
-                res[f.id]['cnaps_total_employer'] += line.cnaps_employer
-                res[f.id]['ostie_total_employer'] += line.ostie_employer
-                res[f.id]['net_total'] += line.net
-                res[f.id]['irsa_total'] += line.irsa
-        return res
+        for o in self:
+            o.update({
+                'base_total': sum(line.base for line in o.irsa_lines),
+                'brute_total': sum(line.brute for line in o.irsa_lines),
+                'child_number_total': sum(line.child_number for line in o.irsa_lines),
+                'cnaps_total_worker': sum(line.cnaps_worker for line in o.irsa_lines),
+                'ostie_total_worker': sum(line.ostie_worker for line in o.irsa_lines),
+                'cnaps_total_employer': sum(line.cnaps_employer for line in o.irsa_lines),
+                'ostie_total_employer': sum(line.ostie_employer for line in o.irsa_lines),
+                'net_total': sum(line.net for line in o.irsa_lines),
+                'irsa_total': sum(line.irsa for line in o.irsa_lines)
+            })
 
-    name = fields.Char(compute='_name_get', type="char",
-                       string='Name', store=True)
-    company_id = fields.Many2one('res.company', 'Dénomination', required=True, default=lambda self: self.env.user.company_id)
-    year = fields.Selection(get_years_from(2012), 'Année', required=True, default=lambda *a: datetime.now().year)
-    month = fields.Selection(_MONTH, 'Mois', index=True, required=True, default=lambda *a: datetime.now().month)
-    semestre = fields.Selection(
-        [(1, '1er Semestre'), (2, '2eme Semestre')], 'Semestre')
+    name = fields.Char(compute='_name_get', string='Name', store=False)
+    company_id = fields.Many2one('res.company', 'Denomination', required=True, default=lambda self: self.env.user.company_id)
+    year = fields.Selection(get_years_from(2012), 'Year', required=True, default=lambda *a: datetime.now().year)
+    month = fields.Selection(_MONTH, 'Month', index=True, required=True, default=lambda *a: datetime.now().month)
+    semester = fields.Selection([(1, '1er Semestre'), (2, '2eme Semestre')], 'Semestre')
     date_document = fields.Date('Date du document', default=lambda *a: date.today())
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'To Pay'),
         ('done', 'Payed'), ], 'État', index=True, readonly=True, default='draft', copy=False)
     irsa_lines = fields.One2many('hr.irsa.line', 'irsa_id', 'IRSA lines')
-    base_total = fields.Float(
-        compute='_get_total', multi='total', string="TOTAL BASE", digits=(8, 2), store=True)
-    brute_total = fields.Float(
-        compute='_get_total', multi='total', string="TOTAL BRUTE", digits=(8, 2), store=True)
-    child_number_total = fields.Integer(
-        compute='_get_total', multi='total', string="Total Nombre d'enfants", store=True)
-    cnaps_total_worker = fields.Float(
-        compute='_get_total', multi='total', string="Total CNaPS T", digits=(8, 2), store=True)
-    ostie_total_worker = fields.Float(
-        compute='_get_total', multi='total', string="Total OSTIE T", digits=(8, 2), store=True)
-    cnaps_total_employer = fields.Float(
-        compute='_get_total', multi='total', string="Total CNaPS E", digits=(8, 2), store=True)
-    ostie_total_employer = fields.Float(
-        compute='_get_total', multi='total', string="Total OSTIE E", digits=(8, 2), store=True)
-    net_total = fields.Float(compute='_get_total', multi='total',
-                             string="Total Salaire NET", digits=(8, 2), store=True)
-    irsa_total = fields.Float(
-        compute='_get_total', multi='total', string="TOTAL IRSA", digits=(8, 2), store=True)
+    base_total = fields.Float(compute='_get_total', string="TOTAL BASE", digits=(8, 2), store=True)
+    brute_total = fields.Float(compute='_get_total', string="TOTAL BRUTE", digits=(8, 2), store=True)
+    child_number_total = fields.Integer(compute='_get_total', string="Total Nombre d'enfants", store=True)
+    cnaps_total_worker = fields.Float(compute='_get_total', string="Total CNaPS T", digits=(8, 2), store=True)
+    ostie_total_worker = fields.Float(compute='_get_total', string="Total OSTIE T", digits=(8, 2), store=True)
+    cnaps_total_employer = fields.Float(compute='_get_total', string="Total CNaPS E", digits=(8, 2), store=True)
+    ostie_total_employer = fields.Float(compute='_get_total', string="Total OSTIE E", digits=(8, 2), store=True)
+    net_total = fields.Float(compute='_get_total', string="Total Salaire NET", digits=(8, 2), store=True)
+    irsa_total = fields.Float(compute='_get_total', string="TOTAL IRSA", digits=(8, 2), store=True)
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name, company_id)', 'Ce document existe déjà!'),
@@ -116,16 +88,13 @@ class Irsa(models.Model):
 
             month = f.month if len(str(f.month)) == 1 else '0' + str(f.month)
             date_from = '%s-%s-01' % (f.year, month)
-            date_to = '%s-%s-%s' % (f.year, month,
-                                    calendar.monthrange(f.year, f.month)[1])
-            employee_ids = self.env['hr.employee'].search([('employee_type', '=', 'cdi')])
+            date_to = '%s-%s-%s' % (f.year, month, calendar.monthrange(f.year, f.month)[1])
+            employee_ids = self.env['hr.employee'].search([('employee_type', '=', 'cdi')]).mapped('id')
             # for each employee
-            slip_ids = slip_obj.search([
-                ('date_from', '>=', date_from),
-                ('date_to', '<=', date_to),
-                ('employee_id', 'in', employee_ids),
-                ('state', '=', 'done')])
-            for slip in slip_ids:
+            slips = slip_obj.search([
+                ('date_from', '>=', date_from), ('date_to', '<=', date_to),
+                ('employee_id', 'in', employee_ids), ('state', '=', 'done')])
+            for slip in slips:
                 base = slip_line_obj.search([('slip_id', '=', slip.id), ('code', '=', 'BASIC')], limit=1)
                 base = base.total
 
@@ -170,22 +139,18 @@ class Irsa(models.Model):
 
     @api.onchange('month')
     def onchange_month(self):
-        self.semestre = 1 if self.month in (1, 2, 3, 4, 5, 6) else 2
+        self.semester = 1 if self.month in (1, 2, 3, 4, 5, 6) else 2
 
 
 class IrsaLine(models.Model):
     _name = 'hr.irsa.line'
-    _description = 'IRSA'
+    _description = 'IRSA details'
 
     def _name_get(self):
-        res = {}
         for record in self:
-            res[record.id] = 'IRSA'.join(
-                (str(record.id), '-', str(record.slip_id.id), '/', str(record.employee_id.id)))
-        return res
+            record.name = ''.join(['IRSA ', str(record.id), '-', str(record.slip_id.id), '/', str(record.employee_id.id)])
 
-    name = fields.Char(compute='_name_get', type="char",
-                       string='Name', store=True)
+    name = fields.Char(compute='_name_get', string='Name', store=False)
     irsa_id = fields.Many2one(
         'hr.irsa', 'IRSA ', required=True, ondelete='cascade', index=True)
     slip_id = fields.Many2one('hr.payslip', 'Payslip', ondelete='cascade')
@@ -200,6 +165,3 @@ class IrsaLine(models.Model):
     ostie_employer = fields.Float('OSTIE Empl.', digits=(8, 2), required=True)
     net = fields.Float('Net', digits=(8, 2), required=True)
     irsa = fields.Float('IRSA', digits=(8, 2), required=True)
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

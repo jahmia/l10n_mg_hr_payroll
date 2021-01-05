@@ -18,3 +18,12 @@ Documents Administratifs
 * IRSA
 * IRI
 
+TO DO
+-----
+SMIC as salary rule (editable)
+
+Mail reminder on payment deadline
+
+Auto select an active contract on payslip batch generation
+
+Translations

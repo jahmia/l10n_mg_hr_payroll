@@ -12,7 +12,6 @@ class WrappedReportPayslip(models.AbstractModel):
     def get_holidays(self):
         result = []
         pris = 0
-        res = {}
         for w in self.worked_days_line_ids:
             if w.code == 'ABS':
                 pris += w.number_of_days
@@ -26,10 +25,8 @@ class WrappedReportPayslip(models.AbstractModel):
 
     def get_net(self):
         payslip_line = self.env['hr.payslip.line']
-        res = []
-        ids = []
         ids = payslip_line.search([('code', '=', 'NET'), ('slip_id', '=', self.id)], limit=1)
-        res = payslip_line.browse(ids) if ids else []
+        res = ids
         return res
 
     def get_net_letters(self):
@@ -57,6 +54,3 @@ class WrappedReportPayslip(models.AbstractModel):
             'get_net': self.get_net,
             'get_net_letters': self.get_net_letters,
         }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
