@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
+
+        <record id="hr_holidays.holiday_status_cl" model="hr.leave.type">
+            <field name="double_validation" eval="True"/>
+        </record>
 
         <record id="hr_holidays.holiday_status_sl" model="hr.leave.type">
             <field name="double_validation" eval="True"/>
         </record>
 
-        <record id="holidays_maternite" model="hr.leave.type">
+        <record id="hr_holidays.holiday_status_unpaid" model="hr.leave.type">
+            <field name="double_validation" eval="True"/>
+            <field name="allocation_type">no</field>
+        </record>
+
+        <record id="holiday_status_maternity" model="hr.leave.type">
             <field name="name">Maternity Leaves</field>
             <field name="limit" eval="True"/>
             <field name="color_name">lightpink</field>
         </record>
 
-        <record id="holidays_paternite" model="hr.leave.type">
+        <record id="holiday_status_paternity" model="hr.leave.type">
             <field name="name">Paternity leaves</field>
             <field name="limit" eval="True"/>
             <field name="color_name">blue</field>
         </record>
 
-        <record id="holidays_unofficial" model="hr.leave.type">
+        <record id="holidays_status_unofficial" model="hr.leave.type">
             <field name="name">Unofficial</field>
             <field name="limit" eval="False"/>
             <field name="deduced" eval="True"/>

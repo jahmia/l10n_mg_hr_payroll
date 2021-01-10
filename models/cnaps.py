@@ -36,7 +36,8 @@ class Cnaps(models.Model):
             o.net_total = o.cnaps_total + o.majoration - o.a_deduire
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
-    company_id = fields.Many2one('res.company', 'Denomination', required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one('res.company', 'Denomination', required=True,
+        default=lambda self: self.env.user.company_id)
     year = fields.Selection(get_years_from(2012), 'Year', required=True, default=lambda *a: datetime.now().year)
     trimester = fields.Selection(_TRIMESTER, 'Trimester', index=True, required=True)
     date_document = fields.Date('Document date', default=lambda *a: date.today())
@@ -60,8 +61,10 @@ class Cnaps(models.Model):
         ('waiting', 'To Pay'),
         ('done', 'Payed'), ], 'État', index=True, default='draft', readonly=True, copy=False)
     cnaps_lines = fields.One2many('hr.cnaps.line', 'cnaps_id', 'CNaPS')
-    total_brute_declared = fields.Float(compute='_get_total', string="Total Salaires Déclarés", digits=(8, 2), store=True)
-    total_brute_capped = fields.Float(compute='_get_total', string="Total Salaires Plafonnés", digits=(8, 2), store=True)
+    total_brute_declared = fields.Float(compute='_get_total', string="Total Salaires Déclarés",
+        digits=(8, 2), store=True)
+    total_brute_capped = fields.Float(compute='_get_total', string="Total Salaires Plafonnés",
+        digits=(8, 2), store=True)
     total_cnaps_empl = fields.Float(compute='_get_total', string="TOTAL BASE", digits=(8, 2), store=True)
     total_cnaps_worker = fields.Float(compute='_get_total', string="TOTAL BRUTE", digits=(8, 2), store=True)
     majoration = fields.Float(string="Majoration de retard 10%", digits=(8, 2))
@@ -200,7 +203,8 @@ class CnapsLine(models.Model):
 
     def _name_get(self):
         for record in self:
-            record.name = ''.join(['CNaPS ', str(record.cnaps_id.id), '-', str(record.employee_id.id), '-', str(record.id)])
+            record.name = ''.join(['CNaPS ', str(record.cnaps_id.id), '-',
+                str(record.employee_id.id), '-', str(record.id)])
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
     cnaps_id = fields.Many2one('hr.cnaps', 'CNaPS', required=True, ondelete='cascade', index=True)

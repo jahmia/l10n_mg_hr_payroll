@@ -2,7 +2,8 @@
 
 import babel
 import calendar
-from datetime import datetime, time, timedelta
+from datetime import datetime, time
+from pytz import timezone
 
 from . import get_years_from
 
@@ -36,94 +37,53 @@ class HrPayslip(models.Model):
     # TODO: Update to actual version
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
-        def was_on_leave(employee_id, datetime_day):
-            res = {}
-            day = datetime_day.strftime("%Y-%m-%d")
-            holiday_ids = self.env['hr.holidays'].search([
-                ('state', '=', 'validate'), ('employee_id', '=', employee_id),
-                ('type', '=', 'remove'), ('date_from', '<=', day), ('date_to', '>=', day)])
-            if holiday_ids:
-                res['name'] = holiday_ids.holiday_status_id.name
-                if holiday_ids.holiday_status_id.deduced:
-                    res['code'] = 'ABS'
-                else:
-                    res['code'] = 'CNG'
-            return res
-
+        """
+        @param contract: Browse record of contracts
+        @return: returns a list of dict containing the input that should be applied for the given contract between date_from and date_to
+        """
         res = []
+        # fill only if the contract as a working schedule linked
         for contract in contracts.filtered(lambda contract: contract.resource_calendar_id):
+            day_from = datetime.combine(fields.Date.from_string(date_from), time.min)
+            day_to = datetime.combine(fields.Date.from_string(date_to), time.max)
+
+            # compute leave days
+            leaves = {}
+            calendar = contract.resource_calendar_id
+            tz = timezone(calendar.tz)
+            day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to, calendar=contract.resource_calendar_id)
+            for day, hours, leave in day_leave_intervals:
+                holiday = leave.holiday_id
+                current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
+                    'name': holiday.holiday_status_id.name or _('Global Leaves'),
+                    'sequence': 5,
+                    'code': holiday.holiday_status_id.name or 'GLOBAL',
+                    'number_of_days': 0.0,
+                    'number_of_hours': 0.0,
+                    'contract_id': contract.id,
+                })
+                current_leave_struct['number_of_hours'] += hours
+                work_hours = calendar.get_work_hours_count(
+                    tz.localize(datetime.combine(day, time.min)),
+                    tz.localize(datetime.combine(day, time.max)),
+                    compute_leaves=False,
+                )
+                if work_hours:
+                    current_leave_struct['number_of_days'] += hours / work_hours
+
+            # compute worked days
+            work_data = contract.employee_id.get_work_days_data(day_from, day_to, calendar=contract.resource_calendar_id)
             attendances = {
                 'name': _("Normal Working Days paid at 100%"),
                 'sequence': 1,
                 'code': 'WORK100',
-                'number_of_days': 0.0,
-                'number_of_hours': 0.0,
+                'number_of_days': work_data['days'],
+                'number_of_hours': work_data['hours'],
                 'contract_id': contract.id,
             }
-            attendances_out = {
-                'name': _("Out of contract"),
-                'sequence': 3,
-                'code': 'OUT',
-                'number_of_days': 0.0,
-                'number_of_hours': 0.0,
-                'contract_id': contract.id,
-            }
-            leaves = {}
-            day_from = datetime.strptime(date_from, "%Y-%m-%d")
-            day_to = datetime.strptime(date_to, "%Y-%m-%d")
-            nb_of_days = (day_to - day_from).days + 1
-            for day in range(0, nb_of_days):
-                working_hours_on_day = self.env['resource.calendar'].working_hours_on_day(
-                    contract.resource_calendar_id, day_from + timedelta(days=day))
-                if working_hours_on_day:
-                    # the employee had to work
-                    leave_type = was_on_leave( contract.employee_id.id, day_from + timedelta(days=day))
-                    if leave_type:
-                        # if he was on leave, fill the leaves dict
-                        if leave_type['name'] in leaves:
-                            leaves[leave_type['name']]['number_of_days'] += 1.0
-                            leaves[leave_type['name']
-                                   ]['number_of_hours'] += working_hours_on_day
-                        else:
-                            leaves[leave_type['name']] = {
-                                'name': leave_type['name'],
-                                'sequence': 5,
-                                'code': leave_type['code'],
-                                'number_of_days': 1.0,
-                                'number_of_hours': working_hours_on_day,
-                                'contract_id': contract.id,
-                            }
-                    else:
-                        # add the input vals to tmp (increment if existing)
-                        date_temp = day_from + timedelta(days=day)
-                        contract_date_start = datetime.strptime(
-                            contract.date_start, "%Y-%m-%d")
-                        # if date_temp in contract
-                        condition_end = True
-                        if contract.date_end:
-                            if date_temp >= datetime.strptime(contract.date_end, "%Y-%m-%d"):
-                                condition_end = False
-                        if contract_date_start <= date_temp and condition_end:
-                            attendances['number_of_days'] += 1.0
-                            attendances['number_of_hours'] += working_hours_on_day
-                        else:
-                            attendances_out['number_of_days'] += 1.0
-                            attendances_out['number_of_hours'] += working_hours_on_day
-            leaves = [value for key, value in leaves.items()]
-            for leave in leaves:
-                if leave['code'] == 'ABS':
-                    leave['number_of_days'] = 0
-                    hol_obj = self.env['hr.holidays']
-                    holiday_ids = hol_obj.search([
-                        ('state', '=', 'validate'), ('employee_id', '=', contract.employee_id.id),
-                        ('type', '=', 'remove'), ('date_from', '>=', date_from), ('date_to', '<=', date_to)])
-                    for hol in holiday_ids:
-                        leave['number_of_days'] += hol.number_of_days_temp
-                    leave['number_of_hours'] = leave['number_of_days'] * 8
-            if attendances_out['number_of_days'] > 0.0:
-                res += [attendances] + leaves + [attendances_out]
-            else:
-                res += [attendances] + leaves
+
+            res.append(attendances)
+            res.extend(leaves.values())
         return res
 
     # rewrite for fields visibility and bug on v8
@@ -148,7 +108,7 @@ class HrPayslip(models.Model):
         locale = self.env.context.get('lang') or 'en_US'
         cdi = True if employee.employee_type == 'cdi' else False  # + Added by Jahmia
         res['value'].update({
-            'name': _('Salary Slip of %s for %s')% (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
+            'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
             'company_id': employee.company_id.id,
             'cdi': cdi,  # Added by Jahmia
         })

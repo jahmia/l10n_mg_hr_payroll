@@ -1,11 +1,19 @@
 Madagascar - Paie
 -----------------
+Informations additionnelles des employés
+
+* N° CIN
+
+* N° CNAPS
+
+* Nombre d'enfants à charge
+
+
+Contrats de travail: CDI ou Prestataire
 
 Règles salariales
 
-Fiche de paie
-
-Contrats des employés
+Fiche de Paie
 
 Documents Administratifs
 
@@ -23,7 +31,5 @@ TO DO
 SMIC as salary rule (editable)
 
 Mail reminder on payment deadline
-
-Auto select an active contract on payslip batch generation
 
 Translations

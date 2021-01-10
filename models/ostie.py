@@ -34,7 +34,8 @@ class Ostie(models.Model):
             o.net_total = o.ostie_total + o.majoration - o.a_deduire
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
-    company_id = fields.Many2one('res.company', 'Denomination', required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one('res.company', 'Denomination', required=True,
+        default=lambda self: self.env.user.company_id)
     year = fields.Selection(get_years_from(2012), 'Year', required=True, default=lambda *a: datetime.now().year)
     trimester = fields.Selection(_TRIMESTER, 'Trimester', index=True, required=True)
     date_document = fields.Date('Document date', default=lambda *a: date.today())
@@ -158,10 +159,10 @@ class Ostie(models.Model):
                     'ostie_id': o.id,
                     'employee_id': e,
                     'month_1': month_1,
-                    'tt1': tt1,
                     'month_2': month_2,
-                    'tt2': tt2,
                     'month_3': month_3,
+                    'tt1': tt1,
+                    'tt2': tt2,
                     'tt3': tt3,
                     'brute_total': brute_total,
                     'ostie_worker': ostie_worker,
@@ -181,7 +182,7 @@ class OstieLine(models.Model):
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
     ostie_id = fields.Many2one('hr.ostie', 'OSTIE', required=True, ondelete='cascade', index=True)
-    employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
+    employee_id = fields.Many2one('hr.employee', string='Employee', required=True)
     month_1 = fields.Float('Month 1', digits=(8, 2), required=True)
     month_2 = fields.Float('Month 2', digits=(8, 2), required=True)
     month_3 = fields.Float('Month 3', digits=(8, 2), required=True)

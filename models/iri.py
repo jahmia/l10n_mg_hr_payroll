@@ -40,7 +40,8 @@ class Iri(models.Model):
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
     title = fields.Char('Titre', translate=True)
-    company_id = fields.Many2one('res.company', 'Denomination', required=True, default= lambda self: self.env.user.company_id)
+    company_id = fields.Many2one('res.company', 'Denomination', required=True,
+        default=lambda self: self.env.user.company_id)
     signature = fields.Char('Signature', translate=True)
     year = fields.Selection(get_years_from(2012), 'Year', required=True, default=lambda *a: datetime.now().year)
     month = fields.Selection(_MONTH, 'Month', index=True, required=True, default=lambda *a: datetime.now().month)
