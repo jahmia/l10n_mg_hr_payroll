@@ -1,246 +1,246 @@
 <?xml version="1.0"?>
 <odoo>
-  <data>
-    <report
-      id="action_report_facture_presta"
-      model="hr.payslip"
-      string="Facture Prestataire"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_facture_presta"
-      file="l10n_mg_hr_payroll.report_facture_presta"
-    />
+    <data>
+        <report
+            id="action_report_facture_presta"
+            model="hr.payslip"
+            string="Facture Prestataire"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_facture_presta"
+            file="l10n_mg_hr_payroll.report_facture_presta"
+        />
 
-    <report
-      id="action_report_funhece"
-      model="hr.funhece"
-      string="FUNHECE"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_funhece"
-      file="l10n_mg_hr_payroll.report_funhece"
-    />
+        <report
+            id="action_report_funhece"
+            model="hr.funhece"
+            string="FUNHECE"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_funhece"
+            file="l10n_mg_hr_payroll.report_funhece"
+        />
 
-    <report
-      id="action_report_irsa"
-      model="hr.irsa"
-      string="IRSA"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_irsa"
-      file="l10n_mg_hr_payroll.report_irsa"
-    />
+        <report
+            id="action_report_irsa"
+            model="hr.irsa"
+            string="IRSA"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_irsa"
+            file="l10n_mg_hr_payroll.report_irsa"
+        />
 
-    <report
-      id="action_report_iri"
-      model="hr.iri"
-      string="IRI"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_iri"
-      file="l10n_mg_hr_payroll.report_iri"
-    />
+        <report
+            id="action_report_iri"
+            model="hr.iri"
+            string="IRI"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_iri"
+            file="l10n_mg_hr_payroll.report_iri"
+        />
 
-    <report
-      id="action_report_annexe_iri"
-      model="hr.iri"
-      string="IRI - Annexe"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_annexe_iri"
-      file="l10n_mg_hr_payroll.report_annexe_iri"
-    />
+        <report
+            id="action_report_annexe_iri"
+            model="hr.iri"
+            string="IRI - Annexe"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_annexe_iri"
+            file="l10n_mg_hr_payroll.report_annexe_iri"
+        />
 
-    <report
-      id="action_report_ostie"
-      model="hr.ostie"
-      string="OSTIE"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_ostie"
-      file="l10n_mg_hr_payroll.report_ostie"
-    />
+        <report
+            id="action_report_ostie"
+            model="hr.ostie"
+            string="OSTIE"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_ostie"
+            file="l10n_mg_hr_payroll.report_ostie"
+        />
 
-    <report
-      id="action_report_cnaps"
-      model="hr.cnaps"
-      string="DNS CNaPS"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_cnaps"
-      file="l10n_mg_hr_payroll.report_cnaps"
-    />
+        <report
+            id="action_report_cnaps"
+            model="hr.cnaps"
+            string="DNS CNaPS"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_cnaps"
+            file="l10n_mg_hr_payroll.report_cnaps"
+        />
 
-    <report
-      id="action_report_cnaps_talon"
-      model="hr.cnaps"
-      string="Talon DNS CNaPS"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_cnaps_talon"
-      file="l10n_mg_hr_payroll.report_cnaps_talon"
-    />
+        <report
+            id="action_report_cnaps_talon"
+            model="hr.cnaps"
+            string="Talon DNS CNaPS"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_cnaps_talon"
+            file="l10n_mg_hr_payroll.report_cnaps_talon"
+        />
 
-    <report
-      id="action_report_contract"
-      model="hr.contract"
-      string="Work Contract"
-      report_type="qweb-pdf"
-      name="l10n_mg_hr_payroll.report_contract"
-      file="l10n_mg_hr_payroll.report_contract"
-    />
+        <report
+            id="action_report_contract"
+            model="hr.contract"
+            string="Work Contract"
+            report_type="qweb-pdf"
+            name="l10n_mg_hr_payroll.report_contract"
+            file="l10n_mg_hr_payroll.report_contract"
+        />
 
-    <record id="base.paperformat_euro" model="report.paperformat">
-      <field name="name">European A4</field>
-      <field name="default" eval="True" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Portrait</field>
-      <field name="margin_top">40</field>
-      <field name="margin_bottom">10</field>
-      <field name="margin_left">7</field>
-      <field name="margin_right">7</field>
-      <field name="header_line" eval="False" />
-      <field name="header_spacing">35</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="base.paperformat_euro" model="report.paperformat">
+            <field name="name">European A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_euro_payslip" model="report.paperformat">
-      <field name="name">European A4 - Paie</field>
-      <field name="default" eval="True" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Portrait</field>
-      <field name="margin_top">35</field>
-      <field name="margin_bottom">17</field>
-      <field name="margin_left">7</field>
-      <field name="margin_right">7</field>
-      <field name="header_line" eval="False" />
-      <field name="header_spacing">30</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_euro_payslip" model="report.paperformat">
+            <field name="name">European A4 - Paie</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">35</field>
+            <field name="margin_bottom">17</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">30</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_a4_paysage_1" model="report.paperformat">
-      <field name="name">European A4 Paysage</field>
-      <field name="default" eval="False" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Landscape</field>
-      <field name="margin_top">40</field>
-      <field name="margin_bottom">10</field>
-      <field name="margin_left">3</field>
-      <field name="margin_right">3</field>
-      <field name="header_line" eval="False"/>
-      <field name="header_spacing">35</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_a4_paysage_1" model="report.paperformat">
+            <field name="name">European A4 Paysage</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_a4_paysage_2" model="report.paperformat">
-      <field name="name">European A4 Paysage 2</field>
-      <field name="default" eval="False" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Landscape</field>
-      <field name="margin_top">80</field>
-      <field name="margin_bottom">10</field>
-      <field name="margin_left">5</field>
-      <field name="margin_right">5</field>
-      <field name="header_line" eval="False"/>
-      <field name="header_spacing">75</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_a4_paysage_2" model="report.paperformat">
+            <field name="name">European A4 Paysage 2</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">80</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">75</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_a4_paysage_3" model="report.paperformat">
-      <field name="name">European A4 Paysage 3</field>
-      <field name="default" eval="False" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Landscape</field>
-      <field name="margin_top">87</field>
-      <field name="margin_bottom">5</field>
-      <field name="margin_left">5</field>
-      <field name="margin_right">5</field>
-      <field name="header_line" eval="False"/>
-      <field name="header_spacing">82</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_a4_paysage_3" model="report.paperformat">
+            <field name="name">European A4 Paysage 3</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">87</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">82</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_euro_contract" model="report.paperformat">
-      <field name="name">European A4 - Contrat</field>
-      <field name="default" eval="True" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Portrait</field>
-      <field name="margin_top">10</field>
-      <field name="margin_bottom">10</field>
-      <field name="margin_left">7</field>
-      <field name="margin_right">7</field>
-      <field name="header_line" eval="False" />
-      <field name="header_spacing">10</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_euro_contract" model="report.paperformat">
+            <field name="name">European A4 - Contrat</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">10</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_euro_iri" model="report.paperformat">
-      <field name="name">European A4 - IRI</field>
-      <field name="default" eval="True" />
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Portrait</field>
-      <field name="margin_top">60</field>
-      <field name="margin_bottom">17</field>
-      <field name="margin_left">7</field>
-      <field name="margin_right">7</field>
-      <field name="header_line" eval="False" />
-      <field name="header_spacing">55</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_euro_iri" model="report.paperformat">
+            <field name="name">European A4 - IRI</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">60</field>
+            <field name="margin_bottom">17</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">55</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="paperformat_euro_annexe_iri" model="report.paperformat">
-      <field name="name">European A4 Landscape- IRI Annexe</field>
-      <field name="default" eval="False"/>
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Landscape</field>
-      <field name="margin_top">30</field>
-      <field name="margin_bottom">1</field>
-      <field name="margin_left">4</field>
-      <field name="margin_right">4</field>
-      <field name="header_line" eval="False" />
-      <field name="header_spacing">25</field>
-      <field name="dpi">96</field>
-    </record>
+        <record id="paperformat_euro_annexe_iri" model="report.paperformat">
+            <field name="name">European A4 Landscape- IRI Annexe</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">4</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">25</field>
+            <field name="dpi">96</field>
+        </record>
 
-    <record id="hr_payroll.action_report_payslip" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_euro_payslip"/>
-    </record>
+        <record id="hr_payroll.action_report_payslip" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_euro_payslip"/>
+        </record>
 
-    <record id="action_report_irsa" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_a4_paysage_1"/>
-    </record>
+        <record id="action_report_irsa" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_paysage_1"/>
+        </record>
 
-    <record id="action_report_iri" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_euro_iri"/>
-    </record>
+        <record id="action_report_iri" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_euro_iri"/>
+        </record>
 
-    <record id="action_report_annexe_iri" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_euro_annexe_iri"/>
-    </record>
+        <record id="action_report_annexe_iri" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_euro_annexe_iri"/>
+        </record>
 
-    <record id="action_report_cnaps" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_a4_paysage_2"/>
-    </record>
+        <record id="action_report_cnaps" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_paysage_2"/>
+        </record>
 
-    <record id="action_report_ostie" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_a4_paysage_3"/>
-    </record>
+        <record id="action_report_ostie" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_paysage_3"/>
+        </record>
 
-    <record id="action_report_contract" model="ir.actions.report">
-      <field name="paperformat_id" ref="paperformat_euro_contract"/>
-      <field name="attachment_use" eval="False"/>
-    </record>
+        <record id="action_report_contract" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_euro_contract"/>
+            <field name="attachment_use" eval="False"/>
+        </record>
 
-    <!-- attachment_use="False"
-    attachment="(object.state in ('draft','verify','done')) and ('INV'+(object.number or '').replace('/','')+'.pdf')" -->
-  </data>
+        <!-- attachment_use="False"
+        attachment="(object.state in ('draft','verify','done')) and ('INV'+(object.number or '').replace('/','')+'.pdf')" -->
+    </data>
 </odoo>
 

@@ -32,10 +32,7 @@
                         <t t-if="company.company_registry">NIF <span t-field="company.company_registry"/></t><br/>
                         <t t-if="company.website">Site Web : <span t-field="company.website"/></t><br/>
                         <!-- <t t-if="company.email">Email : <span t-field="company.email"/></t><br/> -->
-                        <t t-if="company.fax or company.phone">Tel:
-                            <t t-if="company.phone"><span t-field="company.phone"/></t>
-                            <t t-if="company.fax and company.phone">/ <span t-field="company.fax"/></t>
-                        </t>
+                        <t t-if="company.phone">Tel: <span t-field="company.phone"/></t>
                     </address>
                     <br/><br/><br/><br/><br/><br/><br/>
 

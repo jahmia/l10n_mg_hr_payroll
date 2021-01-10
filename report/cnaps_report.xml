@@ -118,8 +118,8 @@
                     <tbody t-foreach="o.cnaps_lines" t-as="line">
                         <td><span t-field="line.employee_id.name"/></td>
                         <td><span t-field="line.employee_id.cnaps"/></td>
-                        <td class="text-center"><span t-field="line.slip_id.contract_id.date_start"/></td>
-                        <td class="text-center"><span t-field="line.slip_id.contract_id.date_end"/></td>
+                        <td class="text-center"><!-- <span t-field="line.slip_id.contract_id.date_start"/> --></td>
+                        <td class="text-center"><!-- <span t-field="line.slip_id.contract_id.date_end"/> --></td>
                         <td class="text-right"><t t-if="line.month_1"><span t-field="line.month_1"/></t></td>
                         <td class="text-center"><t t-if="line.month_1">30J</t></td>
                         <td class="text-right"><t t-if="line.month_2"><span t-field="line.month_2"/></t></td>
@@ -152,9 +152,7 @@
 
                         <!-- <li t-if="o.company_id.email">Email : <span t-field="o.company_id.email"/></li> -->
 
-                        <li t-if="o.company_id.fax or o.company_id.phone">Tel: </li>
-                        <li t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></li>
-                        <li t-if="o.company_id.fax and o.company_id.phone">/ <span t-field="o.company_id.fax"/></li>
+                        <li t-if="o.company_id.phone">Tel: <span t-field="o.company_id.phone"/></li>
                     </ul>
                 </div>
             </div>

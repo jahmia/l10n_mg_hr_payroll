@@ -223,9 +223,7 @@
 
                         <li t-if="o.company_id.email">Email : <span t-field="o.company_id.email"/></li>
 
-                        <li t-if="o.company_id.fax or o.company_id.phone">Tel: </li>
-                        <li t-if="o.company_id.phone"><span t-field="o.company_id.phone"/></li>
-                        <li t-if="o.company_id.fax and o.company_id.phone">/ <span t-field="o.company_id.fax"/></li>
+                        <li t-if="o.company_id.phone">Tel: <span t-field="o.company_id.phone"/></li>
                     </ul>
                 </div> -->
             </div>
