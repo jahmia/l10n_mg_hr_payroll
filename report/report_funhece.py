@@ -3,7 +3,7 @@
 from odoo.models import AbstractModel
 
 
-class FunheceReport():
+class FunheceReport:
 
     def __init__(self):
         self.localcontext.update({

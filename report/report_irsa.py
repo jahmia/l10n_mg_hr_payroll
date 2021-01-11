@@ -3,7 +3,7 @@
 from odoo.models import AbstractModel
 
 
-class IrsaReport():
+class IrsaReport:
 
     def __init__(self):
         self.localcontext.update({

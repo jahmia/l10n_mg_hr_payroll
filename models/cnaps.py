@@ -3,9 +3,8 @@
 import calendar
 from datetime import date, datetime, timedelta
 
-from . import get_date_interval, get_years_from
-
 from odoo import api, fields, models, _
+from . import get_date_interval, get_years_from
 
 
 class Cnaps(models.Model):

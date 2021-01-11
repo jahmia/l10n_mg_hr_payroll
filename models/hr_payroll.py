@@ -27,9 +27,12 @@ class HrContract(models.Model):
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
-    h_sup = fields.Float('Heures Supp.', digits=(7, 2), help="Heures Supplémentaires de l'employé pour le mois en cours")
-    prime = fields.Float('Prime du mois', digits=(7, 2), help="Prime de l'employé pour le mois en cours")
-    bonus = fields.Float('Bonus du mois', digits=(7, 2), help="Bonus du prestataire pour le mois en cours")
+    h_sup = fields.Float('Heures Supp.', digits=(7, 2),
+        help="Heures Supplémentaires de l'employé pour le mois en cours")
+    prime = fields.Float('Prime du mois', digits=(7, 2),
+        help="Prime de l'employé pour le mois en cours")
+    bonus = fields.Float('Bonus du mois', digits=(7, 2),
+        help="Bonus du prestataire pour le mois en cours")
     acompte = fields.Float('Acompte anticipé', digits=(7, 2), help="Acompte anticipé")
     cdi = fields.Boolean('Is an employee')
 
@@ -38,8 +41,11 @@ class HrPayslip(models.Model):
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
         """
-        @param contract: Browse record of contracts
-        @return: returns a list of dict containing the input that should be applied for the given contract between date_from and date_to
+        @param contracts: Browse record of contracts
+        @param date_from: Begin date
+        @param date_to : End date
+        @return: returns a list of dict containing the input
+            that should be applied for the given contract between date_from and date_to
         """
         res = []
         # fill only if the contract as a working schedule linked
@@ -51,7 +57,8 @@ class HrPayslip(models.Model):
             leaves = {}
             calendar = contract.resource_calendar_id
             tz = timezone(calendar.tz)
-            day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to, calendar=contract.resource_calendar_id)
+            day_leave_intervals = contract.employee_id.list_leaves(day_from, day_to,
+                calendar=contract.resource_calendar_id)
             for day, hours, leave in day_leave_intervals:
                 holiday = leave.holiday_id
                 current_leave_struct = leaves.setdefault(holiday.holiday_status_id, {
@@ -72,7 +79,8 @@ class HrPayslip(models.Model):
                     current_leave_struct['number_of_days'] += hours / work_hours
 
             # compute worked days
-            work_data = contract.employee_id.get_work_days_data(day_from, day_to, calendar=contract.resource_calendar_id)
+            work_data = contract.employee_id.get_work_days_data(day_from, day_to,
+                calendar=contract.resource_calendar_id)
             attendances = {
                 'name': _("Normal Working Days paid at 100%"),
                 'sequence': 1,
@@ -108,7 +116,8 @@ class HrPayslip(models.Model):
         locale = self.env.context.get('lang') or 'en_US'
         cdi = True if employee.employee_type == 'cdi' else False  # + Added by Jahmia
         res['value'].update({
-            'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
+            'name': _('Salary Slip of %s for %s') % (employee.name, tools.ustr(
+                babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
             'company_id': employee.company_id.id,
             'cdi': cdi,  # Added by Jahmia
         })
@@ -121,7 +130,8 @@ class HrPayslip(models.Model):
                 # set the list of contract for which the input have to be filled
                 contract_ids = [contract_id]
             else:
-                # if we don't give the contract, then the input to fill should be for all current contracts of the employee
+                # if we don't give the contract, then the input to fill
+                # should be for all current contracts of the employee
                 contract_ids = self.get_contract(employee, date_from, date_to)
 
         if not contract_ids:

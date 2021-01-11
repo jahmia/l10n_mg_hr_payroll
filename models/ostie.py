@@ -178,7 +178,8 @@ class OstieLine(models.Model):
 
     def _name_get(self):
         for record in self:
-            record.name = ''.join(['OSTIE', str(record.ostie_id.id), '-', str(record.employee_id.id), '-', str(record.id)])
+            record.name = ''.join(['OSTIE', str(record.ostie_id.id), '-',
+                str(record.employee_id.id), '-', str(record.id)])
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
     ostie_id = fields.Many2one('hr.ostie', 'OSTIE', required=True, ondelete='cascade', index=True)

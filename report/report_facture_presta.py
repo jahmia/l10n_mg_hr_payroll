@@ -7,7 +7,7 @@ from odoo.osv import osv
 from odoo.models import AbstractModel
 
 
-class InvoicePrestaReport():
+class InvoicePrestaReport:
     def __init__(self):
         self.localcontext.update({
             'get_payslip_lines': self.get_payslip_lines,
@@ -47,9 +47,9 @@ class InvoicePrestaReport():
         res = payslip_line.browse(ids) if ids else []
         return res
 
-    def get_net_letters(self, obj):
+    def get_net_letters(self):
         # TODO: Currency variable
-        payslip_line = self.get_net(obj)
+        payslip_line = self.get_net()
         if not payslip_line:
             raise osv.except_osv(_('Warning!'), _('This is not a subcontractor !'))
         net = payslip_line.total

@@ -5,8 +5,10 @@ def to_letters(number):
         @number (int) """
     # TODO: Process float numbers
     schu = ["", "UN ", "DEUX ", "TROIS ", "QUATRE ", "CINQ ", "SIX ", "SEPT ", "HUIT ", "NEUF "]
-    schud = ["DIX ", "ONZE ", "DOUZE ", "TREIZE ", "QUATORZE ", "QUINZE ", "SEIZE ", "DIX SEPT ", "DIX HUIT ", "DIX NEUF "]
-    schd = ["", "DIX ", "VINGT ", "TRENTE ", "QUARANTE ", "CINQUANTE ", "SOIXANTE ", "SOIXANTE ", "QUATRE VINGT ", "QUATRE VINGT "]
+    schud = ["DIX ", "ONZE ", "DOUZE ", "TREIZE ", "QUATORZE ", "QUINZE ", "SEIZE ", "DIX SEPT ", "DIX HUIT ",
+             "DIX NEUF "]
+    schd = ["", "DIX ", "VINGT ", "TRENTE ", "QUARANTE ", "CINQUANTE ", "SOIXANTE ", "SOIXANTE ", "QUATRE VINGT ",
+            "QUATRE VINGT "]
     s = ''
     reste = number
     i = 1000000000

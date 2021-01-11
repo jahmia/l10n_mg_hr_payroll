@@ -46,7 +46,8 @@ class Irsa(models.Model):
             })
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
-    company_id = fields.Many2one('res.company', 'Denomination', required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one('res.company', 'Denomination', required=True,
+        default=lambda self: self.env.user.company_id)
     year = fields.Selection(get_years_from(2012), 'Year', required=True, default=lambda *a: datetime.now().year)
     month = fields.Selection(_MONTH, 'Month', index=True, required=True, default=lambda *a: datetime.now().month)
     semester = fields.Selection([(1, '1er Semestre'), (2, '2eme Semestre')], 'Semestre')
@@ -148,7 +149,8 @@ class IrsaLine(models.Model):
 
     def _name_get(self):
         for record in self:
-            record.name = ''.join(['IRSA ', str(record.id), '-', str(record.slip_id.id), '/', str(record.employee_id.id)])
+            record.name = ''.join(['IRSA ', str(record.id), '-',
+                str(record.slip_id.id), '/', str(record.employee_id.id)])
 
     name = fields.Char(compute='_name_get', string='Name', store=False)
     irsa_id = fields.Many2one(

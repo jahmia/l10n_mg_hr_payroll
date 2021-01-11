@@ -5,8 +5,8 @@ try:
 except ImportError:
     import json
 
-from odoo.http import request, route
 from odoo.addons.web.controllers.main import ReportController
+from odoo.http import request, route
 
 
 class PTReportController(ReportController):

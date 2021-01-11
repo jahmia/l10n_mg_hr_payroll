@@ -9,7 +9,8 @@ class ResCompany(models.Model):
     slogan = fields.Char('Slogan', size=128)
     company_registry = fields.Char('NIF', size=64)
     siret = fields.Char('STAT', size=21)
-    irsa_payer = fields.Char('Nom organisme payeur', size=30, help="Nom et prénoms ou raison sociale de l'employeur ou de l'organisme payeur")
+    irsa_payer = fields.Char('Nom organisme payeur', size=30,
+        help="Nom et prénoms ou raison sociale de l'employeur ou de l'organisme payeur")
     irsa_job = fields.Many2one('hr.job', "Proffession", size=30, help="Proffession de l'organisme payeur")
     cnaps_matricule = fields.Char('Matricule', size=15)
     cnaps_activity = fields.Char('Activité', size=15)

@@ -111,7 +111,8 @@ class IriLine(models.Model):
 
     def _name_get(self):
         for record in self:
-            record.name = ''.join(['IRI ', str(record.id), '-', str(record.slip_id.id), '/', str(record.employee_id.id)])
+            record.name = ''.join(['IRI ', str(record.id), '-', str(record.slip_id.id),
+                '/', str(record.employee_id.id)])
 
     name = fields.Char(compute='_name_get', string='Name', store=True)
     iri_id = fields.Many2one(
