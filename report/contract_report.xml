@@ -19,8 +19,8 @@
         <t t-foreach="docs" t-as="o">
             <t t-if="o.employee_id.employee_type == 'prestataire'">
             <t t-if="o and o.employee_id">
-                <t t-set="company" t-value="o.employee_id.company_id"></t>
-                <t t-set="e" t-value="o.employee_id"></t>
+                <t t-set="company" t-value="o.employee_id.company_id"/>
+                <t t-set="e" t-value="o.employee_id"/>
             </t>
             <div class="page">
                 <div class="row">
