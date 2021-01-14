@@ -59,7 +59,6 @@
         <record id="action_irsa_form" model="ir.actions.act_window">
             <field name="name">IRSA</field>
             <field name="res_model">hr.irsa</field>
-            <field name="view_type">form</field>
             <field name="view_id" ref="hr_irsa_tree_view"/>
             <field name="limit">12</field>
         </record>

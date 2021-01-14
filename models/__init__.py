@@ -2,8 +2,6 @@
 
 from datetime import datetime
 
-from . import cnaps, hr, hr_leave, hr_payroll, iri, irsa, ostie, res_company
-
 
 def get_years_from(begining):
     """Returns dict of tuples (int, str)"""
@@ -31,3 +29,6 @@ def get_date_interval(o):
         date_from = '%s-10-01' % o['year']
         date_to = '%s-12-31' % o['year']
     return date_from, date_to
+
+
+from . import cnaps, hr, hr_leave, hr_payroll, iri, irsa, ostie, res_company

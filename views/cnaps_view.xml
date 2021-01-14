@@ -74,7 +74,6 @@
         <record id="action_cnaps_form" model="ir.actions.act_window">
             <field name="name">CNaPS</field>
             <field name="res_model">hr.cnaps</field>
-            <field name="view_type">form</field>
             <field name="view_id" ref="hr_cnaps_tree_view"/>
             <field name="limit">12</field>
         </record>

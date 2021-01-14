@@ -81,7 +81,6 @@
         <record id="action_ostie_form" model="ir.actions.act_window">
             <field name="name">OSTIE</field>
             <field name="res_model">hr.ostie</field>
-            <field name="view_type">form</field>
             <field name="view_id" ref="hr_ostie_tree_view"/>
             <field name="limit">12</field>
         </record>
